@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Killer Baccarat OS - V.16.6.2 Resilient</title>
+    <title>Killer Baccarat OS - V.16.6.2 Web Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -14,120 +14,141 @@
         .bead-t { background-color: #22c55e; color: white; font-weight: bold; }
         
         @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.4); }
-            50% { box-shadow: 0 0 25px rgba(34,197,94,0.8); }
+            0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.3); }
+            50% { box-shadow: 0 0 25px rgba(34,197,94,0.6); }
         }
         .golden-glow { animation: pulse-green 2s infinite; }
         
         @keyframes pulse-red {
-            0%, 100% { box-shadow: 0 0 15px rgba(239,68,68,0.4); }
-            50% { box-shadow: 0 0 25px rgba(239,68,68,0.8); }
+            0%, 100% { box-shadow: 0 0 15px rgba(239,68,68,0.3); }
+            50% { box-shadow: 0 0 25px rgba(239,68,68,0.6); }
         }
         .danger-glow { animation: pulse-red 2s infinite; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-4 px-4 pb-20 justify-start">
+<body class="min-h-screen bg-slate-900 text-white pb-20 selection:bg-indigo-500 selection:text-white">
 
-    <div class="w-full max-w-md flex justify-between items-center mb-4">
-        <div>
-            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">KILLER OS</h1>
-            <p class="text-[10px] text-gray-400">V.16.6.2 • Resilient & Responsive</p>
-        </div>
-        <div class="flex bg-slate-800 p-1 rounded-lg border border-slate-700 gap-1 flex-wrap justify-end">
-            <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-2 py-1 rounded text-xs font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐋 V.1</button>
-            <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-2 py-1 rounded text-xs font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐉 V.2</button>
-            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-2 py-1 rounded text-xs font-semibold bg-red-600 text-white transition-all whitespace-nowrap">🔥 V.3</button>
-        </div>
-    </div>
-
-    <div id="golden-shoe-alert" class="w-full max-w-md bg-green-600/90 border border-green-400 rounded-xl p-3 text-center mb-4 hidden golden-glow transition-all duration-300">
-        <p class="text-white font-extrabold text-lg">🟢 เข้าเล่นขอนนี้ ทันที!</p>
-        <p class="text-xs text-green-100">ระบบสแกนพบ Genesis 6 ตาแรกอยู่ใน Top 10 ทำกำไร</p>
-    </div>
-
-    <div id="danger-shoe-alert" class="w-full max-w-md bg-red-600/90 border border-red-400 rounded-xl p-3 text-center mb-4 hidden danger-glow transition-all duration-300">
-        <p class="text-white font-extrabold text-lg">🔴 แจ้งเตือน: สถิติติดลบสูง</p>
-        <p class="text-xs text-red-100">Genesis 6 ตาแรกอยู่ใน Bottom 10 (ระมัดระวังเป็นพิเศษ)</p>
-    </div>
-
-    <div id="commander-zone" class="w-full max-w-md bg-slate-800 rounded-2xl p-5 border-2 text-center mb-4 transition-all duration-300 relative overflow-hidden">
-        <div class="flex justify-between items-center mb-2">
-            <p id="mode-badge" class="text-[10px] font-bold text-red-400 uppercase tracking-widest px-2 py-1 bg-red-900/30 rounded">Whale V.3 (Immortal)</p>
-            <div class="text-right flex flex-col items-end">
-                <p id="market-regime" class="text-[10px] text-gray-400 mb-0.5 font-bold">ตลาด: ⚖️ Balanced</p>
-                <p id="system-status" class="text-[10px] text-gray-400">✅ ระบบพร้อมรบ</p>
+    <div class="container mx-auto max-w-6xl px-4 py-6 lg:py-10">
+        
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4 border-b border-slate-800 pb-4">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">KILLER OS</h1>
+                <p class="text-xs text-gray-400 mt-1">V.16.6.2 • Responsive Dashboard</p>
+            </div>
+            <div class="flex bg-slate-800 p-1.5 rounded-xl border border-slate-700 gap-1.5 flex-wrap justify-center shadow-lg">
+                <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐋 V.1</button>
+                <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐉 V.2</button>
+                <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white transition-all whitespace-nowrap shadow-md">🔥 V.3</button>
             </div>
         </div>
-        
-        <h2 id="signal-text" class="text-3xl font-bold text-gray-300 mt-1">ดูลาดเลา... (ทับมือ)</h2>
-        
-        <div id="dna-container" class="flex justify-center items-center mt-2 h-6 hidden transition-all">
-            <span class="text-xs text-gray-400 mr-2">รหัส 3 เกลอ:</span>
-            <div id="dna-dots" class="flex gap-1.5 items-center bg-slate-900 px-3 py-1 rounded-full shadow-inner border border-slate-700"></div>
-        </div>
 
-        <p id="bet-amount-text" class="text-2xl font-bold mt-2 text-transparent">-</p>
-    </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-    <div class="w-full max-w-md grid grid-cols-2 gap-3 mb-4">
-        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center flex flex-col justify-center">
-            <p class="text-xs text-gray-400">กำไร/ขาดทุน ขอนนี้</p>
-            <p id="pnl-text" class="text-2xl font-bold text-white mt-1">0 ฿</p>
-        </div>
-        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center">
-            <p class="text-xs text-gray-400">ไม้ค้างรวม (Global PnL)</p>
-            <p id="global-pnl-text" class="text-lg font-semibold text-gray-300 mt-1">0 ฿</p>
-            <div class="mt-1 flex justify-between px-2 text-[10px] text-gray-400 border-t border-slate-600 pt-1">
-                <span>สเตป: <b id="step-text" class="text-white">1</b></span>
-                <span>ไม้: <b id="loss-streak-text" class="text-white">1</b></span>
+            <div class="lg:col-span-12 space-y-4">
+                <div id="golden-shoe-alert" class="w-full bg-green-600/90 border border-green-400 rounded-2xl p-4 text-center hidden golden-glow transition-all duration-300">
+                    <p class="text-white font-extrabold text-xl md:text-2xl">🟢 เข้าเล่นขอนนี้ ทันที!</p>
+                    <p class="text-sm text-green-100 mt-1">ระบบสแกนพบ Genesis 6 ตาแรกอยู่ใน Top 10 ทำกำไรสูงสุด</p>
+                </div>
+                <div id="danger-shoe-alert" class="w-full bg-red-600/90 border border-red-400 rounded-2xl p-4 text-center hidden danger-glow transition-all duration-300">
+                    <p class="text-white font-extrabold text-xl md:text-2xl">🔴 แจ้งเตือนอันตราย: สถิติติดลบสูง</p>
+                    <p class="text-sm text-red-100 mt-1">Genesis 6 ตาแรกอยู่ใน Bottom 10 (ระบบยังคงให้ Signal ปกติ แต่โปรดระมัดระวัง)</p>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                
+                <div id="commander-zone" class="w-full bg-slate-800 rounded-3xl p-6 md:p-8 border-2 text-center transition-all duration-300 relative overflow-hidden shadow-2xl">
+                    <div class="flex justify-between items-start mb-4">
+                        <p id="mode-badge" class="text-xs md:text-sm font-bold text-red-400 uppercase tracking-widest px-3 py-1.5 bg-red-900/30 rounded-lg">Whale V.3 (Immortal)</p>
+                        <div class="text-right flex flex-col items-end">
+                            <p id="market-regime" class="text-xs md:text-sm text-gray-400 mb-1 font-bold bg-slate-900 px-3 py-1 rounded-md">ตลาด: ⚖️ Balanced</p>
+                            <p id="system-status" class="text-xs text-gray-400 mt-1">✅ ระบบพร้อมรบ</p>
+                        </div>
+                    </div>
+                    
+                    <h2 id="signal-text" class="text-4xl md:text-5xl lg:text-6xl font-black text-gray-300 mt-6 mb-4 tracking-tight">ดูลาดเลา...</h2>
+                    
+                    <div id="dna-container" class="flex justify-center items-center h-8 hidden transition-all mb-4">
+                        <span class="text-sm md:text-base text-gray-400 mr-3">รหัส 3 เกลอ:</span>
+                        <div id="dna-dots" class="flex gap-2 items-center bg-slate-900 px-4 py-2 rounded-full shadow-inner border border-slate-700"></div>
+                    </div>
+
+                    <p id="bet-amount-text" class="text-3xl md:text-4xl font-bold mt-2 mb-2 text-transparent">-</p>
+                </div>
+
+                <div class="w-full bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-700 shadow-xl">
+                    <div class="flex justify-between items-center mb-5">
+                        <p class="text-base md:text-lg text-gray-300 font-semibold flex items-center">
+                            บันทึกผลไพ่ <span id="round-text" class="text-sm ml-3 bg-indigo-600/30 text-indigo-300 border border-indigo-500/50 px-3 py-1 rounded-full">ตาที่ 0</span>
+                        </p>
+                        <button onclick="undo()" class="text-sm bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-xl text-white transition-colors shadow-md border border-slate-600">↩️ เลิกทำ</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 md:gap-6 mb-6">
+                        <button onclick="recordResult('P')" class="btn-press bg-blue-600 hover:bg-blue-500 text-white py-8 md:py-10 rounded-2xl text-3xl md:text-4xl font-bold shadow-[0_10px_20px_rgba(37,99,235,0.3)] transition-all">P</button>
+                        <button onclick="recordResult('T')" class="btn-press bg-green-600 hover:bg-green-500 text-white py-8 md:py-10 rounded-2xl text-xl md:text-2xl font-bold shadow-[0_10px_20px_rgba(34,197,94,0.3)] transition-all">TIE</button>
+                        <button onclick="recordResult('B')" class="btn-press bg-red-600 hover:bg-red-500 text-white py-8 md:py-10 rounded-2xl text-3xl md:text-4xl font-bold shadow-[0_10px_20px_rgba(239,68,68,0.3)] transition-all">B</button>
+                    </div>
+
+                    <div class="flex gap-3 md:gap-4 mt-2">
+                        <button onclick="newShoe()" class="flex-1 bg-indigo-600 hover:bg-indigo-500 py-4 rounded-xl font-bold text-white shadow-lg transition-colors text-base md:text-lg">🔄 เริ่มขอนใหม่</button>
+                        <button onclick="hardResetData()" class="w-1/4 bg-slate-700 hover:bg-slate-600 py-4 rounded-xl font-bold text-gray-400 transition-colors text-sm border border-slate-600 shadow-md">🧹 ล้างหน่วยความจำ</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 text-center shadow-lg flex flex-col justify-center">
+                        <p class="text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider mb-2">กำไรขอนนี้</p>
+                        <p id="pnl-text" class="text-3xl md:text-4xl font-bold text-white mt-1 drop-shadow-md">0 ฿</p>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-3xl border border-slate-700 text-center shadow-lg relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/5 to-transparent rounded-bl-full"></div>
+                        <p class="text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider mb-2">ยอดรวม (Global)</p>
+                        <p id="global-pnl-text" class="text-2xl md:text-3xl font-bold text-gray-200 mt-1">0 ฿</p>
+                        <div class="mt-4 flex justify-between px-2 text-xs text-gray-400 border-t border-slate-600/50 pt-3">
+                            <span>สเตป: <b id="step-text" class="text-white text-sm">1</b></span>
+                            <span>ไม้: <b id="loss-streak-text" class="text-white text-sm">1</b></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-full bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-lg flex-1">
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-sm font-semibold text-gray-300">กระดานลูกปัด (Bead Plate)</p>
+                        <span class="text-[10px] text-gray-500">ตรวจสอบความถูกต้อง</span>
+                    </div>
+                    <div id="history-container" class="flex flex-wrap gap-2 min-h-[160px] content-start bg-slate-900/50 p-4 rounded-2xl border border-slate-700/50 shadow-inner"></div>
+                </div>
+
+                <div id="toxic-recorder-zone" class="w-full bg-slate-900 p-6 rounded-3xl border border-red-500/50 hidden shadow-[0_0_20px_rgba(220,38,38,0.2)] transition-all">
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-sm font-bold text-red-500 flex items-center">🚨 ตรวจพบเค้าไพ่สั่งตาย!</p>
+                        <button onclick="hideToxic()" class="text-xs text-gray-400 hover:text-white bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">ปิด</button>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="text" id="toxic-dna-input" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-red-400 font-mono text-sm tracking-widest text-center shadow-inner" value="">
+                        <button onclick="copyToxicDNA()" class="bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg transition-colors">COPY</button>
+                    </div>
+                </div>
+
+                <div id="genesis-report-zone" class="w-full bg-slate-900 p-6 rounded-3xl border border-indigo-500/50 hidden shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all">
+                    <div class="flex justify-between items-center mb-4">
+                        <p class="text-sm font-bold text-indigo-400">📊 สรุปสถิติ 6 ตาแรก</p>
+                        <button onclick="hideGenesis()" class="text-xs text-gray-400 hover:text-white bg-slate-800 px-4 py-2 rounded-lg border border-slate-700">ปิด</button>
+                    </div>
+                    <p id="genesis-outcome-text" class="text-sm text-gray-300 mb-3 font-medium bg-slate-800 p-2 rounded-lg text-center"></p>
+                    <div class="flex items-center gap-3">
+                        <input type="text" id="genesis-data-input" readonly class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-indigo-300 font-mono text-xs tracking-widest text-center shadow-inner" value="">
+                        <button onclick="copyGenesisData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl text-sm font-bold shadow-lg transition-colors">COPY</button>
+                    </div>
+                </div>
+
             </div>
         </div>
-    </div>
-
-    <div id="toxic-recorder-zone" class="w-full max-w-md bg-slate-900 p-4 rounded-xl border border-red-600 mb-4 hidden shadow-[0_0_15px_rgba(220,38,38,0.3)] transition-all">
-        <div class="flex justify-between items-center mb-2">
-            <p class="text-sm font-bold text-red-500">🚨 ตรวจพบเค้าไพ่สั่งตาย (แพ้ 5 ไม้ติด)!</p>
-            <button onclick="hideToxic()" class="text-xs text-gray-500 hover:text-white bg-slate-800 px-2 py-1 rounded">ปิด</button>
-        </div>
-        <div class="flex items-center gap-2">
-            <input type="text" id="toxic-dna-input" readonly class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-red-400 font-mono text-sm tracking-widest text-center" value="">
-            <button onclick="copyToxicDNA()" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm font-bold shadow-lg transition-colors">COPY</button>
-        </div>
-        <p class="text-[10px] text-gray-400 mt-2 text-center">คัดลอกโค้ดนี้ส่งให้ AI เพื่อสร้างบัญชีดำ</p>
-    </div>
-
-    <div id="genesis-report-zone" class="w-full max-w-md bg-slate-800 p-4 rounded-xl border border-indigo-500 mb-4 hidden shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all">
-        <div class="flex justify-between items-center mb-2">
-            <p class="text-sm font-bold text-indigo-400">📊 รายงานสถิติ 6 ตาแรก (Genesis Scan)</p>
-            <button onclick="hideGenesis()" class="text-xs text-gray-500 hover:text-white bg-slate-700 px-2 py-1 rounded">ปิด</button>
-        </div>
-        <p id="genesis-outcome-text" class="text-xs text-gray-300 mb-2"></p>
-        <div class="flex items-center gap-2">
-            <input type="text" id="genesis-data-input" readonly class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-indigo-300 font-mono text-xs tracking-widest text-center" value="">
-            <button onclick="copyGenesisData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded text-sm font-bold shadow-lg transition-colors">COPY</button>
-        </div>
-        <p class="text-[10px] text-gray-400 mt-2 text-center">คัดลอกส่ง AI เพื่อสร้างฐานข้อมูลห้อง</p>
-    </div>
-
-    <div class="w-full max-w-md bg-slate-800 p-4 rounded-xl border border-slate-700 mb-4">
-        <div class="flex justify-between items-center mb-3">
-            <p class="text-sm text-gray-400">บันทึกผลไพ่ <span id="round-text" class="text-xs ml-1 bg-slate-700 px-2 py-0.5 rounded">ตาที่ 0</span></p>
-            <button onclick="undo()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-white transition-colors">↩️ เลิกทำ</button>
-        </div>
-        <div class="grid grid-cols-3 gap-3 mb-2">
-            <button onclick="recordResult('P')" class="btn-press bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl text-2xl font-bold shadow-lg shadow-blue-500/20">P</button>
-            <button onclick="recordResult('T')" class="btn-press bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl text-xl font-bold shadow-lg shadow-green-500/20">TIE</button>
-            <button onclick="recordResult('B')" class="btn-press bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl text-2xl font-bold shadow-lg shadow-red-500/20">B</button>
-        </div>
-        <div class="flex gap-2 mt-3">
-            <button onclick="newShoe()" class="w-[70%] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-bold text-white shadow-lg transition-colors text-sm">🔄 ล้างกระดาน / เริ่มขอนใหม่</button>
-            <button onclick="hardResetData()" class="w-[30%] bg-gray-700 hover:bg-gray-600 py-3 rounded-xl font-bold text-gray-300 transition-colors text-xs border border-gray-600">🧹 ล้างความจำ</button>
-        </div>
-    </div>
-
-    <div class="w-full max-w-md">
-        <p class="text-[10px] text-gray-400 mb-1 pl-1">กระดานลูกปัด (ตรวจสอบความถูกต้อง)</p>
-        <div id="history-container" class="flex flex-wrap gap-1.5 bg-slate-800 p-3 rounded-xl border border-slate-700 min-h-[60px] content-start"></div>
     </div>
 
     <script>
@@ -148,24 +169,26 @@
         const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; 
         const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
+        // ตัวแปรระบบ
         let mode = 'WHALE_V3'; 
         let global_history_log = []; 
         let current_shoe_genesis_dna = ""; 
         let last_genesis_report = null; 
-        
         let state, initial_shoe_state;
 
-        // 💾 ระบบ Local Storage Persistence
+        const STORAGE_KEY = 'killerBaccaratData_V16_Responsive';
+
+        // 💾 ระบบ Local Storage Persistence (ความจำไม่หายเมื่อรีเฟรช)
         function saveToStorage() {
             const data = {
                 mode, global_history_log, current_shoe_genesis_dna, last_genesis_report,
                 state, initial_shoe_state
             };
-            localStorage.setItem('killerBaccaratData_V16', JSON.stringify(data));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         }
 
         function loadFromStorage() {
-            const data = localStorage.getItem('killerBaccaratData_V16');
+            const data = localStorage.getItem(STORAGE_KEY);
             if (data) {
                 try {
                     const parsed = JSON.parse(data);
@@ -182,16 +205,16 @@
         }
 
         function hardResetData() {
-            if(confirm("⚠️ ลบความจำระบบทั้งหมด (ประวัติ, ยอดไม้ค้าง)? ยืนยันหรือไม่?")) {
-                localStorage.removeItem('killerBaccaratData_V16');
+            if(confirm("⚠️ คำเตือน: ต้องการล้างความจำระบบทั้งหมด (ประวัติไพ่, กำไรสะสม, ยอดไม้ค้าง) ใช่หรือไม่?")) {
+                localStorage.removeItem(STORAGE_KEY);
                 window.location.reload();
             }
         }
 
         function getBorderColor(m) {
-            if (m === 'WHALE_V1') return "border-yellow-500";
-            if (m === 'WHALE_V2') return "border-fuchsia-500";
-            if (m === 'WHALE_V3') return "border-red-500";
+            if (m === 'WHALE_V1') return "border-yellow-500 shadow-[0_0_20px_rgba(234,179,8,0.2)]";
+            if (m === 'WHALE_V2') return "border-fuchsia-500 shadow-[0_0_20px_rgba(217,70,239,0.2)]";
+            if (m === 'WHALE_V3') return "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.2)]";
             return "border-slate-500";
         }
 
@@ -249,14 +272,14 @@
             if (mode === newMode) return; 
             mode = newMode;
             
-            document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-3 py-1 rounded text-sm font-semibold bg-yellow-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
-            document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-3 py-1 rounded text-sm font-semibold bg-fuchsia-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
-            document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-3 py-1 rounded text-sm font-semibold bg-red-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-yellow-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-fuchsia-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
             
             let badgeText = mode === 'WHALE_V1' ? "Whale V.1" : mode === 'WHALE_V2' ? "Whale V.2 (7th Seal)" : "Whale V.3 (Immortal)";
-            let badgeClass = mode === 'WHALE_V1' ? "text-[10px] font-bold text-yellow-400 uppercase tracking-widest px-2 py-1 bg-yellow-900/30 rounded" : 
-                             mode === 'WHALE_V2' ? "text-[10px] font-bold text-fuchsia-400 uppercase tracking-widest px-2 py-1 bg-fuchsia-900/30 rounded" : 
-                             "text-[10px] font-bold text-red-400 uppercase tracking-widest px-2 py-1 bg-red-900/30 rounded";
+            let badgeClass = mode === 'WHALE_V1' ? "text-xs md:text-sm font-bold text-yellow-400 uppercase tracking-widest px-3 py-1.5 bg-yellow-900/30 rounded-lg" : 
+                             mode === 'WHALE_V2' ? "text-xs md:text-sm font-bold text-fuchsia-400 uppercase tracking-widest px-3 py-1.5 bg-fuchsia-900/30 rounded-lg" : 
+                             "text-xs md:text-sm font-bold text-red-400 uppercase tracking-widest px-3 py-1.5 bg-red-900/30 rounded-lg";
             document.getElementById('mode-badge').innerText = badgeText;
             document.getElementById('mode-badge').className = badgeClass;
             
@@ -265,6 +288,7 @@
             renderUI();
         }
 
+        // 🔥 กฎเหล็กของ V.3: The 4-Streak RRR Shield
         function applyV3Shield(history, dna) {
             if (!history || history.length < 4) return false;
             let streak = 1;
@@ -417,7 +441,7 @@
             s.history_all.push(outcome);
             if (outcome === 'B' || outcome === 'P') s.history.push(outcome);
 
-            // 🎯 GENESIS FILTER (สแกน 6 ตาแรก)
+            // 🎯 NEW: GENESIS FILTER (สแกน 6 ตาแรก)
             if (s.history.length === 6 && !s.genesis_checked) {
                 s.genesis_checked = true;
                 let gen6 = s.history.slice(0, 6).join('');
@@ -427,10 +451,11 @@
                     s.genesis_status = 'TOP';
                 } else if (GENESIS_BOTTOM_10.includes(gen6)) {
                     s.genesis_status = 'BOTTOM';
-                    // 💡 แก้ไข: อนุญาตให้ระบบรันต่อได้ (เอา active_shoe = false ออก) เพื่อให้มันโชว์ Signal เผื่อไว้
+                    // บอทยังทำงานต่อได้ตามที่คุณสั่ง ไม่ล็อก s.active_shoe = false แล้วครับ!
                 }
             }
 
+            // 🚨 Trigger Toxic Data Capture
             if (s.needs_toxic_capture) {
                 s.toxic_dna_captured = s.history.slice(-18).join('');
                 s.show_toxic_recorder = true;
@@ -541,7 +566,10 @@
         function undo() { 
             if (global_history_log.length > 0) { 
                 global_history_log.pop(); 
-                if (global_history_log.length < 6) current_shoe_genesis_dna = ""; 
+                if (global_history_log.length < 6) {
+                    current_shoe_genesis_dna = ""; 
+                    state.genesis_status = null;
+                }
                 state = rebuildStateFromLog(mode, global_history_log);
                 saveToStorage();
                 renderUI(); 
@@ -551,6 +579,7 @@
         function newShoe() {
             let keepCarryover = false;
 
+            // สรุปข้อมูล Genesis สำหรับ Data Mining ก่อนล้างกระดาน
             if (current_shoe_genesis_dna.length >= 6) {
                 let outcome_category = "";
                 let tp_limit = CONFIG[mode].tp;
@@ -598,6 +627,18 @@
         }
 
         function renderUI() {
+            // อัปเดตปุ่มโหมด
+            document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-yellow-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-fuchsia-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-lg text-sm font-semibold bg-red-600 text-white transition-all shadow-md whitespace-nowrap" : "px-4 py-2 rounded-lg text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            
+            let badgeText = mode === 'WHALE_V1' ? "Whale V.1" : mode === 'WHALE_V2' ? "Whale V.2 (7th Seal)" : "Whale V.3 (Immortal)";
+            let badgeClass = mode === 'WHALE_V1' ? "text-[10px] md:text-xs font-bold text-yellow-400 uppercase tracking-widest px-3 py-1.5 bg-yellow-900/30 rounded-lg" : 
+                             mode === 'WHALE_V2' ? "text-[10px] md:text-xs font-bold text-fuchsia-400 uppercase tracking-widest px-3 py-1.5 bg-fuchsia-900/30 rounded-lg" : 
+                             "text-[10px] md:text-xs font-bold text-red-400 uppercase tracking-widest px-3 py-1.5 bg-red-900/30 rounded-lg";
+            document.getElementById('mode-badge').innerText = badgeText;
+            document.getElementById('mode-badge').className = badgeClass;
+
             const sigText = document.getElementById('signal-text'), betAmtText = document.getElementById('bet-amount-text');
             const dnaContainer = document.getElementById('dna-container'), dnaDots = document.getElementById('dna-dots');
             
@@ -611,14 +652,14 @@
             if (state.genesis_status === 'BOTTOM') { dangerAlert.classList.remove('hidden'); } 
             else { dangerAlert.classList.add('hidden'); }
 
-            sigText.innerText = state.status_msg; sigText.className = `text-2xl sm:text-3xl font-bold mt-1 ${state.status_color}`;
+            sigText.innerText = state.status_msg; sigText.className = `text-4xl md:text-5xl lg:text-6xl font-black mt-4 md:mt-6 mb-4 tracking-tight ${state.status_color}`;
             
             if (state.current_signal && state.current_dna && state.current_dna !== "---") {
                 dnaContainer.classList.remove('hidden'); let dotsHtml = '';
                 for(let char of state.current_dna) {
-                    if (char === 'R') dotsHtml += '<span class="w-3 h-3 rounded-full bg-red-500 shadow-sm border border-red-700"></span>';
-                    else if (char === 'B') dotsHtml += '<span class="w-3 h-3 rounded-full bg-blue-500 shadow-sm border border-blue-700"></span>';
-                    else dotsHtml += '<span class="text-gray-500 text-xs font-bold px-1">-</span>';
+                    if (char === 'R') dotsHtml += '<span class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-red-500 shadow-sm border border-red-700"></span>';
+                    else if (char === 'B') dotsHtml += '<span class="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full bg-blue-500 shadow-sm border border-blue-700"></span>';
+                    else dotsHtml += '<span class="text-gray-500 text-sm font-bold px-1">-</span>';
                 }
                 dnaDots.innerHTML = dotsHtml;
             } else { dnaContainer.classList.add('hidden'); dnaDots.innerHTML = ''; }
@@ -626,14 +667,14 @@
             if (state.bet_amount !== null && state.active_shoe) {
                 if (state.bet_amount === 0) {
                     betAmtText.innerText = `จำนวนเงิน: 0 ฿ (Virtual)`; 
-                    betAmtText.className = `text-xl font-bold mt-2 text-gray-400`;
+                    betAmtText.className = `text-2xl md:text-3xl font-bold mt-2 text-gray-400`;
                 } else {
                     betAmtText.innerText = `จำนวนเงิน: ${state.bet_amount} ฿`; 
-                    betAmtText.className = `text-xl font-bold mt-2 ${state.status_color}`;
+                    betAmtText.className = `text-3xl md:text-4xl font-bold mt-2 ${state.status_color}`;
                 }
             } else { 
                 betAmtText.innerText = "-"; 
-                betAmtText.className = "text-xl font-bold mt-2 text-transparent"; 
+                betAmtText.className = "text-3xl md:text-4xl font-bold mt-2 text-transparent"; 
             }
 
             let regime_text = "⚖️ Balanced";
@@ -641,21 +682,23 @@
             if (state.regime_display === "B-Dom") regime_text = "🔴 B-Dom";
             document.getElementById('market-regime').innerText = `ตลาด: ${regime_text}`;
 
-            document.getElementById('commander-zone').className = `w-full max-w-md bg-slate-800 rounded-2xl p-5 border-2 text-center mb-4 transition-all duration-300 ${state.bg_border} relative overflow-hidden`;
+            document.getElementById('commander-zone').className = `w-full bg-slate-800 rounded-3xl p-6 md:p-8 border-2 text-center transition-all duration-300 relative overflow-hidden shadow-2xl ${state.bg_border}`;
             document.getElementById('pnl-text').innerText = (state.pnl > 0 ? "+" : "") + state.pnl + " ฿";
-            document.getElementById('pnl-text').className = `text-2xl font-bold mt-1 ${state.pnl > 0 ? 'text-green-400' : (state.pnl < 0 ? 'text-red-400' : 'text-white')}`;
+            document.getElementById('pnl-text').className = `text-3xl md:text-4xl font-bold mt-1 drop-shadow-md ${state.pnl > 0 ? 'text-green-400' : (state.pnl < 0 ? 'text-red-400' : 'text-white')}`;
             document.getElementById('global-pnl-text').innerText = (state.global_pnl > 0 ? "+" : "") + state.global_pnl + " ฿";
-            document.getElementById('global-pnl-text').className = `text-lg font-semibold mt-1 ${state.global_pnl > 0 ? 'text-green-400' : (state.global_pnl < 0 ? 'text-red-400' : 'text-gray-300')}`;
+            document.getElementById('global-pnl-text').className = `text-2xl md:text-3xl font-bold mt-1 ${state.global_pnl > 0 ? 'text-green-400' : (state.global_pnl < 0 ? 'text-red-400' : 'text-gray-200')}`;
             document.getElementById('step-text').innerText = state.current_tier + 1;
             document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
             document.getElementById('round-text').innerText = `ตาที่ ${state.history_all.length}`;
 
+            // 🚨 โชว์กล่อง Toxic Recorder
             const toxicZone = document.getElementById('toxic-recorder-zone');
             if (state.show_toxic_recorder) {
                 toxicZone.classList.remove('hidden');
                 document.getElementById('toxic-dna-input').value = state.toxic_dna_captured;
             } else { toxicZone.classList.add('hidden'); }
 
+            // 📊 โชว์กล่อง Genesis Report
             const genesisZone = document.getElementById('genesis-report-zone');
             if (last_genesis_report) {
                 genesisZone.classList.remove('hidden');
@@ -672,12 +715,13 @@
 
             const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
             state.history_all.forEach(out => {
-                let div = document.createElement('div'); div.className = `w-6 h-6 rounded-full flex items-center justify-center text-[10px] bead-${out.toLowerCase()} shadow-sm`;
+                let div = document.createElement('div'); div.className = `w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-[11px] md:text-xs bead-${out.toLowerCase()} shadow-md`;
                 div.innerText = out; histContainer.appendChild(div);
             });
             
             let sysInfo = "✅ ระบบพร้อมรบ";
-            if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำทำงาน!";
+            if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ บัญชีดำ: แจ้งเตือนสถิติติดลบ แต่ระบบยังทำงาน"; // ไม่ล็อกบอทแล้ว
+            else if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำทำงาน!";
             else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!";
             else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3 ทำงาน"; 
             else if(state.is_virtual_mode) sysInfo = "👻 แทงลมเพื่อเช็คความแม่นยำ";
