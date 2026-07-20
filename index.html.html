@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Killer Baccarat OS - V.16.6.1 Ultimate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #0f172a; color: white; user-select: none; }
+        .btn-press:active { transform: scale(0.95); }
+        .bead-b { background-color: #ef4444; color: white; font-weight: bold; }
+        .bead-p { background-color: #3b82f6; color: white; font-weight: bold; }
+        .bead-t { background-color: #22c55e; color: white; font-weight: bold; }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.4); }
+            50% { box-shadow: 0 0 25px rgba(34,197,94,0.8); }
+        }
+        .golden-glow { animation: pulse-green 2s infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center py-4 px-4 pb-20">
+
+    <div class="w-full max-w-md flex justify-between items-center mb-4">
+        <div>
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">KILLER OS</h1>
+            <p class="text-[10px] text-gray-400">V.16.6.1 • Immortal + Genesis Filter</p>
+        </div>
+        <div class="flex bg-slate-800 p-1 rounded-lg border border-slate-700 gap-1 flex-wrap justify-end">
+            <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-2 py-1 rounded text-xs font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐋 V.1</button>
+            <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-2 py-1 rounded text-xs font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐉 V.2</button>
+            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-2 py-1 rounded text-xs font-semibold bg-red-600 text-white transition-all whitespace-nowrap">🔥 V.3</button>
+        </div>
+    </div>
+
+    <div id="golden-shoe-alert" class="w-full max-w-md bg-green-600/90 border border-green-400 rounded-xl p-3 text-center mb-4 hidden golden-glow transition-all duration-300">
+        <p class="text-white font-extrabold text-lg">🟢 เข้าเล่นขอนนี้ ทันที!</p>
+        <p class="text-xs text-green-100">ระบบสแกนพบ Genesis 6 ตาแรกอยู่ใน Top 10 ทำกำไร</p>
+    </div>
+
+    <div id="commander-zone" class="w-full max-w-md bg-slate-800 rounded-2xl p-5 border-2 text-center mb-4 transition-all duration-300 relative overflow-hidden">
+        <div class="flex justify-between items-center mb-2">
+            <p id="mode-badge" class="text-[10px] font-bold text-red-400 uppercase tracking-widest px-2 py-1 bg-red-900/30 rounded">Whale V.3 (Immortal)</p>
+            <div class="text-right flex flex-col items-end">
+                <p id="market-regime" class="text-[10px] text-gray-400 mb-0.5 font-bold">ตลาด: ⚖️ Balanced</p>
+                <p id="system-status" class="text-[10px] text-gray-400">✅ ระบบพร้อมรบ</p>
+            </div>
+        </div>
+        
+        <h2 id="signal-text" class="text-3xl font-bold text-gray-300 mt-1">ดูลาดเลา... (ทับมือ)</h2>
+        
+        <div id="dna-container" class="flex justify-center items-center mt-2 h-6 hidden transition-all">
+            <span class="text-xs text-gray-400 mr-2">รหัส 3 เกลอ:</span>
+            <div id="dna-dots" class="flex gap-1.5 items-center bg-slate-900 px-3 py-1 rounded-full shadow-inner border border-slate-700"></div>
+        </div>
+
+        <p id="bet-amount-text" class="text-2xl font-bold mt-2 text-transparent">-</p>
+    </div>
+
+    <div class="w-full max-w-md grid grid-cols-2 gap-3 mb-4">
+        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center flex flex-col justify-center">
+            <p class="text-xs text-gray-400">กำไร/ขาดทุน ขอนนี้</p>
+            <p id="pnl-text" class="text-2xl font-bold text-white mt-1">0 ฿</p>
+        </div>
+        <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 text-center">
+            <p class="text-xs text-gray-400">ไม้ค้างรวม (Global PnL)</p>
+            <p id="global-pnl-text" class="text-lg font-semibold text-gray-300 mt-1">0 ฿</p>
+            <div class="mt-1 flex justify-between px-2 text-[10px] text-gray-400 border-t border-slate-600 pt-1">
+                <span>สเตป: <b id="step-text" class="text-white">1</b></span>
+                <span>ไม้: <b id="loss-streak-text" class="text-white">1</b></span>
+            </div>
+        </div>
+    </div>
+
+    <div id="toxic-recorder-zone" class="w-full max-w-md bg-slate-900 p-4 rounded-xl border border-red-600 mb-4 hidden shadow-[0_0_15px_rgba(220,38,38,0.3)] transition-all">
+        <div class="flex justify-between items-center mb-2">
+            <p class="text-sm font-bold text-red-500">🚨 ตรวจพบเค้าไพ่สั่งตาย (แพ้ 5 ไม้ติด)!</p>
+            <button onclick="hideToxic()" class="text-xs text-gray-500 hover:text-white bg-slate-800 px-2 py-1 rounded">ปิด</button>
+        </div>
+        <div class="flex items-center gap-2">
+            <input type="text" id="toxic-dna-input" readonly class="w-full bg-slate-800 border border-slate-700 rounded p-2 text-red-400 font-mono text-sm tracking-widest text-center" value="">
+            <button onclick="copyToxicDNA()" class="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded text-sm font-bold shadow-lg transition-colors">COPY</button>
+        </div>
+        <p class="text-[10px] text-gray-400 mt-2 text-center">คัดลอกโค้ดนี้ส่งให้ AI เพื่อสร้างบัญชีดำ</p>
+    </div>
+
+    <div id="genesis-report-zone" class="w-full max-w-md bg-slate-800 p-4 rounded-xl border border-indigo-500 mb-4 hidden shadow-[0_0_15px_rgba(99,102,241,0.3)] transition-all">
+        <div class="flex justify-between items-center mb-2">
+            <p class="text-sm font-bold text-indigo-400">📊 รายงานสถิติ 6 ตาแรก (Genesis Scan)</p>
+            <button onclick="hideGenesis()" class="text-xs text-gray-500 hover:text-white bg-slate-700 px-2 py-1 rounded">ปิด</button>
+        </div>
+        <p id="genesis-outcome-text" class="text-xs text-gray-300 mb-2"></p>
+        <div class="flex items-center gap-2">
+            <input type="text" id="genesis-data-input" readonly class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-indigo-300 font-mono text-xs tracking-widest text-center" value="">
+            <button onclick="copyGenesisData()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded text-sm font-bold shadow-lg transition-colors">COPY</button>
+        </div>
+        <p class="text-[10px] text-gray-400 mt-2 text-center">คัดลอกส่ง AI เพื่อสร้างฐานข้อมูลห้อง</p>
+    </div>
+
+    <div class="w-full max-w-md bg-slate-800 p-4 rounded-xl border border-slate-700 mb-4">
+        <div class="flex justify-between items-center mb-3">
+            <p class="text-sm text-gray-400">บันทึกผลไพ่ <span id="round-text" class="text-xs ml-1 bg-slate-700 px-2 py-0.5 rounded">ตาที่ 0</span></p>
+            <button onclick="undo()" class="text-xs bg-slate-700 hover:bg-slate-600 px-3 py-1 rounded text-white transition-colors">↩️ เลิกทำ</button>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-2">
+            <button onclick="recordResult('P')" class="btn-press bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-xl text-2xl font-bold shadow-lg shadow-blue-500/20">P</button>
+            <button onclick="recordResult('T')" class="btn-press bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl text-xl font-bold shadow-lg shadow-green-500/20">TIE</button>
+            <button onclick="recordResult('B')" class="btn-press bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl text-2xl font-bold shadow-lg shadow-red-500/20">B</button>
+        </div>
+        <button onclick="newShoe()" class="w-full mt-3 bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-bold text-white shadow-lg transition-colors">🔄 ล้างกระดาน / เริ่มขอนใหม่</button>
+    </div>
+
+    <div class="w-full max-w-md">
+        <p class="text-[10px] text-gray-400 mb-1 pl-1">กระดานลูกปัด (ตรวจสอบความถูกต้อง)</p>
+        <div id="history-container" class="flex flex-wrap gap-1.5 bg-slate-800 p-3 rounded-xl border border-slate-700 min-h-[60px] content-start"></div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            'WHALE_V1': { tiers: [[100, 200, 400], [800, 1600, 3200, 6400]], tp: 500, sl: -99999, lockdown_round: 45, use_dragon_wait: true, use_toxic_v2: false, use_v3_shield: false },
+            'WHALE_V2': { tiers: [[100, 200, 400], [800, 1600, 3200, 6400]], tp: 500, sl: -99999, lockdown_round: 45, use_dragon_wait: true, use_toxic_v2: true, use_v3_shield: false },
+            'WHALE_V3': { tiers: [[100, 200, 400], [800, 1600, 3200, 6400]], tp: 500, sl: -99999, lockdown_round: 45, use_dragon_wait: true, use_toxic_v2: true, use_v3_shield: true } 
+        };
+
+        // 📋 ฐานข้อมูลสแกนห้อง (Genesis DB)
+        const GENESIS_TOP_10 = ['PBBPBP', 'PBPBPP', 'BPPBPB', 'PPPPBB', 'PPPBBP', 'PPPBPB', 'PPPBBB', 'BPBBBP', 'BPBBBB', 'BBPBBB'];
+        const GENESIS_BOTTOM_10 = ['PPBBPP', 'BPPBBB', 'BBBBPB', 'PBPPBB', 'PPBPPP', 'PBBPPB', 'PBBPPP', 'PBBBBB', 'BBBBBB', 'PBPBBP'];
+
+        const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); 
+        const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); 
+        const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
+        const TOXIC_4 = "BBBBBPPBBBBB"; 
+        const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); 
+        const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; 
+        const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
+
+        let mode = 'WHALE_V3'; 
+        let global_history_log = []; 
+        let current_shoe_genesis_dna = ""; 
+        let last_genesis_report = null; 
+
+        function getBorderColor(m) {
+            if (m === 'WHALE_V1') return "border-yellow-500";
+            if (m === 'WHALE_V2') return "border-fuchsia-500";
+            if (m === 'WHALE_V3') return "border-red-500";
+            return "border-slate-500";
+        }
+
+        function getInitialState(keepCarryover = false) {
+            let base_tiers = JSON.parse(JSON.stringify(CONFIG[mode].tiers));
+            let final_tiers = base_tiers;
+            let initial_global_pnl = 0, initial_current_tier = 0, initial_loss_streak = 0, initial_global_losses = 0; 
+            let initial_show_toxic = false, initial_toxic_dna = "";
+
+            if (keepCarryover && typeof state !== 'undefined' && state) {
+                initial_global_pnl = state.global_pnl;
+                initial_current_tier = state.current_tier;
+                initial_loss_streak = state.loss_streak;
+                initial_global_losses = state.global_consecutive_losses;
+                initial_show_toxic = state.show_toxic_recorder;
+                initial_toxic_dna = state.toxic_dna_captured;
+                final_tiers = JSON.parse(JSON.stringify(state.active_tiers)); 
+                if (initial_current_tier === 1) {
+                    let remaining_bullets = final_tiers[1].length - initial_loss_streak;
+                    while (remaining_bullets < 3) {
+                        let last_bet = final_tiers[1][final_tiers[1].length - 1];
+                        final_tiers[1].push(last_bet * 2); 
+                        remaining_bullets = final_tiers[1].length - initial_loss_streak;
+                    }
+                }
+            }
+
+            return {
+                history_all: [], history: [], pnl: 0,
+                global_pnl: initial_global_pnl, current_tier: initial_current_tier, loss_streak: initial_loss_streak, active_tiers: final_tiers, 
+                current_signal: null, current_dna: "---", bet_amount: null,
+                active_shoe: true, status_msg: "ดูลาดเลา... (ทับมือ)", status_color: "text-gray-300", bg_border: getBorderColor(mode),
+                dragon_wait: false, dragon_color: null, symmetry_wait: false, toxic_wait: false, toxic_msg: "",
+                regime_display: "Balanced", last_bet_won: false, is_riding_dragon: false, riding_color: null,
+                is_virtual_mode: false, is_trailing: false, global_consecutive_losses: initial_global_losses, is_blowout: false,
+                genesis_checked: false, genesis_status: null,
+                show_toxic_recorder: initial_show_toxic, toxic_dna_captured: initial_toxic_dna, needs_toxic_capture: false
+            };
+        }
+
+        let state = getInitialState(false);
+        let initial_shoe_state = JSON.parse(JSON.stringify(state)); 
+
+        function rebuildStateFromLog(mode_to_run, log_array) {
+            let temp_state = JSON.parse(JSON.stringify(initial_shoe_state));
+            temp_state.bg_border = getBorderColor(mode_to_run);
+            for (let out of log_array) { processOutcomeOnState(temp_state, out, mode_to_run); }
+            return temp_state;
+        }
+
+        function setMode(newMode) {
+            if (mode === newMode) return; 
+            mode = newMode;
+            
+            document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-3 py-1 rounded text-sm font-semibold bg-yellow-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-3 py-1 rounded text-sm font-semibold bg-fuchsia-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-3 py-1 rounded text-sm font-semibold bg-red-600 text-white transition-all whitespace-nowrap" : "px-3 py-1 rounded text-sm font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap";
+            
+            let badgeText = mode === 'WHALE_V1' ? "Whale V.1" : mode === 'WHALE_V2' ? "Whale V.2 (7th Seal)" : "Whale V.3 (Immortal)";
+            let badgeClass = mode === 'WHALE_V1' ? "text-[10px] font-bold text-yellow-400 uppercase tracking-widest px-2 py-1 bg-yellow-900/30 rounded" : 
+                             mode === 'WHALE_V2' ? "text-[10px] font-bold text-fuchsia-400 uppercase tracking-widest px-2 py-1 bg-fuchsia-900/30 rounded" : 
+                             "text-[10px] font-bold text-red-400 uppercase tracking-widest px-2 py-1 bg-red-900/30 rounded";
+            document.getElementById('mode-badge').innerText = badgeText;
+            document.getElementById('mode-badge').className = badgeClass;
+            
+            state = rebuildStateFromLog(mode, global_history_log);
+            renderUI();
+        }
+
+        // 🔥 กฎเหล็กของ V.3: The 4-Streak RRR Shield
+        function applyV3Shield(history, dna) {
+            if (!history || history.length < 4) return false;
+            let streak = 1;
+            let lastOutcome = history[history.length - 1]; 
+            for (let i = history.length - 2; i >= 0; i--) {
+                if (history[i] === lastOutcome) streak++;
+                else break;
+            }
+            if (streak === 4 && (dna === "RRR" || dna === "BBB")) return true; 
+            return false; 
+        }
+
+        function getStreakLengths(hist) {
+            if(hist.length === 0) return [];
+            let streaks = [], current = 1;
+            for(let i=1; i<hist.length; i++){
+                if(hist[i] === hist[i-1]) current++; else { streaks.push(current); current = 1; }
+            }
+            streaks.push(current); return streaks;
+        }
+
+        function buildBigRoad(actual_list) {
+            let br = [];
+            for (let out of actual_list) {
+                if (out !== 'B' && out !== 'P') continue;
+                if (br.length === 0) br.push([out]);
+                else if (out === br[br.length - 1][0]) br[br.length - 1].push(out);
+                else br.push([out]);
+            }
+            return br;
+        }
+
+        function get3RoadsColor(hist, next_bet) {
+            let br = buildBigRoad([...hist, next_bet]), colors = [];
+            if (br.length === 0) return "---";
+            for (let k of [1, 2, 3]) {
+                let c = br.length - 1, r = br[c].length - 1, color = '-';
+                if (r === 0) {
+                    if (c < k + 1) { colors.push('-'); continue; }
+                    color = (br[c - 1].length === br[c - (k + 1)].length) ? 'R' : 'B';
+                } else {
+                    if (c < k) { colors.push('-'); continue; }
+                    if (br[c - k].length > r) color = 'R';
+                    else if (br[c - k].length === r) color = 'B';
+                    else color = 'R';
+                }
+                colors.push(color);
+            }
+            return colors.join('').length === 3 ? colors.join('') : "---";
+        }
+
+        function evaluateSignal(s) {
+            let hist = s.history, len = hist.length;
+            if (len < 5) return null; 
+            let window_size = 15;
+            let recent_hist = hist.slice(-window_size);
+            let w_len = recent_hist.length;
+            let b_cnt = recent_hist.filter(x=>x==='B').length;
+            let p_cnt = w_len - b_cnt;
+            let regime = "Balanced";
+            if (w_len >= 10) { 
+                if (p_cnt / w_len >= 0.55) regime = "P-Dom"; 
+                else if (b_cnt / w_len >= 0.55) regime = "B-Dom"; 
+            }
+            s.regime_display = regime; 
+
+            let occ3=0, occ4=0, occ5=0, streak=1;
+            for (let j = len - 2; j >= 0; j--) { if (hist[j] === hist[len - 1]) streak++; else break; }
+            let tmpStr = 1;
+            for(let i=0; i<len; i++) {
+                if(i>0 && hist[i]===hist[i-1]) tmpStr++; else tmpStr=1;
+                if(tmpStr===3) occ3++; if(tmpStr===4) occ4++; if(tmpStr===5) occ5++;
+            }
+            let dna = get3RoadsColor(hist, hist[len - 1]), opp = hist[len - 1] === 'B' ? 'P' : 'B', sig = null;
+
+            if (streak >= 5) {
+                if (occ5 === 1) sig = opp;
+                else if (occ5 === 2 && ['RRR', 'RBR'].includes(dna)) sig = hist[len-1];
+                else if (occ5 === 3 && ['RRB', 'BRR', 'RRR'].includes(dna)) sig = hist[len-1];
+            } else if (streak === 4 && !sig) {
+                if (occ4 === 1 && regime !== 'P-Dom') sig = hist[len-1];
+                else if (occ4 === 2 && ['BRR', 'RRB'].includes(dna)) sig = opp;
+                else if (occ4 === 3) sig = hist[len-1];
+            } else if (streak === 3 && !sig) {
+                if (occ3 === 1) sig = hist[len-1];
+                else if (occ3 === 2 && ['BRR', 'RBR'].includes(dna)) sig = hist[len-1];
+                else if (occ3 === 3 && ['RBR', 'BRR', 'RBB'].includes(dna)) sig = opp;
+            } else if (!sig && len>=4 && hist[len-1] === hist[len-2] && hist[len-3] === hist[len-4] && hist[len-1] !== hist[len-3]) {
+                if (regime === 'P-Dom' && ['RBR', 'BRR'].includes(dna)) sig = opp;
+                else if (regime === 'Balanced') sig = hist[len-1];
+            } else if (!sig && streak === 2) {
+                if (regime === 'Balanced' && !['BRR', 'BBR'].includes(dna)) sig = hist[len-1];
+            }
+            return sig;
+        }
+
+        function processOutcomeOnState(s, outcome, run_mode) {
+            let cfg = CONFIG[run_mode];
+
+            if (s.active_shoe) {
+                if (s.current_signal && outcome !== 'T') {
+                    let is_win = (outcome === s.current_signal);
+                    let amt = s.bet_amount;
+
+                    if (s.is_virtual_mode && amt === 0) {
+                        if (is_win) { s.is_virtual_mode = false; }
+                    } else if (amt > 0) {
+                        s.last_bet_won = is_win; 
+                        if (is_win) {
+                            s.pnl += amt; s.global_pnl += amt; s.loss_streak = 0; s.current_tier = 0; s.global_consecutive_losses = 0; 
+                            if (s.pnl >= cfg.tp) { s.is_trailing = true; }
+                        } else {
+                            s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; 
+                            if (s.global_consecutive_losses === 5) { s.needs_toxic_capture = true; } // Trigger Auto-Toxic
+
+                            if (s.is_trailing) {
+                                s.active_shoe = false;
+                                s.status_msg = `🏆 ล็อกกำไร (Trailing Stop) (+${s.pnl}) เปลี่ยนขอน!`;
+                                s.status_color = "text-green-400";
+                                s.bg_border = "border-green-500 bg-green-900/40";
+                                s.bet_amount = null; s.current_dna = "---";
+                            } else {
+                                if (s.is_riding_dragon) s.is_riding_dragon = false;
+                                let strk = 1;
+                                for(let j=s.history.length-2; j>=0; j--){ if(s.history[j]===s.history[s.history.length-1]) strk++; else break;}
+                                if (strk >= 4) { s.dragon_wait = true; s.dragon_color = s.history[s.history.length-1]; }
+                                
+                                let max_losses = s.active_tiers[s.current_tier].length;
+                                if (s.loss_streak >= max_losses) {
+                                    s.loss_streak = 0;
+                                    if (s.current_tier < s.active_tiers.length - 1) {
+                                        s.current_tier++; 
+                                    } else {
+                                        s.current_tier = 0; s.active_shoe = false; s.is_blowout = true;
+                                        s.status_msg = `💥 พอร์ตแตก (Loss ${s.global_consecutive_losses} ไม้) ย้ายขอน!`;
+                                        s.status_color = "text-red-500";
+                                        s.bg_border = "border-red-600 bg-red-900/40";
+                                        s.bet_amount = null; s.current_dna = "---";
+                                        s.needs_toxic_capture = true; // Trigger Auto-Toxic on blowout
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (outcome !== 'T') {
+                    if (!s.is_virtual_mode) { s.last_bet_won = false; }
+                }
+            }
+
+            s.history_all.push(outcome);
+            if (outcome === 'B' || outcome === 'P') s.history.push(outcome);
+
+            // 🎯 NEW: GENESIS FILTER (สแกน 6 ตาแรก)
+            if (s.history.length === 6 && !s.genesis_checked) {
+                s.genesis_checked = true;
+                let gen6 = s.history.slice(0, 6).join('');
+                if (current_shoe_genesis_dna === "") current_shoe_genesis_dna = gen6;
+                
+                if (GENESIS_TOP_10.includes(gen6)) {
+                    s.genesis_status = 'TOP';
+                } else if (GENESIS_BOTTOM_10.includes(gen6)) {
+                    s.genesis_status = 'BOTTOM';
+                    s.active_shoe = false; // 🔒 ล็อกดาวน์การแทงเงินทันที
+                }
+            }
+
+            // 🚨 Trigger Toxic Data Capture
+            if (s.needs_toxic_capture) {
+                s.toxic_dna_captured = s.history.slice(-18).join('');
+                s.show_toxic_recorder = true;
+                s.needs_toxic_capture = false;
+            }
+
+            if (s.active_shoe) {
+                if (s.dragon_wait) { if (outcome !== 'T' && outcome !== s.dragon_color) s.dragon_wait = false; }
+
+                let hist = s.history, hist_str = hist.join(''), len = hist.length, strks = getStreakLengths(hist);
+                s.toxic_wait = false; s.toxic_msg = "";
+
+                if (hist_str.length >= 10 && TOXIC_1.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 1 (ทับมือ)"; }
+                if (cfg.use_toxic_v2) {
+                    if (hist_str.length >= 10 && TOXIC_2.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 2 (ทับมือ)"; }
+                    if (hist_str.length >= 10 && TOXIC_3.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 3 (ทับมือ)"; }
+                    if (hist_str.length >= 8 && TOXIC_4.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 4: มังกรแฝด (ทับมือ)"; }
+                    if (hist_str.length >= 8 && TOXIC_5.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 5: ดงปิงปอง (ทับมือ)"; }
+                    if (hist_str.length >= 12 && TOXIC_6.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 6: มังกรสับหลอก (ทับมือ)"; }
+                    if (hist_str.length >= 12 && TOXIC_7.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ 7: เลื่อยอสมมาตร (ทับมือ)"; }
+                }
+
+                if (strks.length >= 3) {
+                    let last3 = strks.slice(-3); 
+                    if (last3.every(st => st === 2 || st === 3)) s.symmetry_wait = true;
+                    if (strks[strks.length - 1] >= 4 || last3.every(st => st === 1)) s.symmetry_wait = false;
+                }
+
+                if (s.toxic_wait || s.symmetry_wait || s.dragon_wait) { s.is_virtual_mode = true; }
+
+                if (len >= 4 && !s.is_riding_dragon && !s.dragon_wait && !s.symmetry_wait && !s.toxic_wait) {
+                    let strk = 1;
+                    for(let j=len-2; j>=0; j--){ if(hist[j]===hist[len-1]) strk++; else break;}
+                    if (strk === 4) {
+                        let temp_dna = get3RoadsColor(hist, hist[len-1]);
+                        if (s.last_bet_won && ['RRR', 'RBR', 'RRB'].includes(temp_dna)) {
+                            s.is_riding_dragon = true; s.riding_color = hist[len-1]; 
+                        }
+                    }
+                }
+
+                let hand_num = s.history_all.length + 1;
+                let v3_shield_triggered = false, v3_target_signal = null, v3_target_dna = "---";
+                
+                if (cfg.use_v3_shield && len >= 4) {
+                    let test_dna = get3RoadsColor(hist, hist[len - 1]);
+                    if (applyV3Shield(hist, test_dna)) {
+                        v3_shield_triggered = true; v3_target_signal = hist[len - 1]; v3_target_dna = test_dna;
+                    }
+                }
+
+                // 🚦 Decision Flow
+                if (v3_shield_triggered) {
+                    s.is_virtual_mode = true; s.current_signal = v3_target_signal; s.current_dna = v3_target_dna;
+                    s.status_msg = `⚠️ เกราะมังกรลวง (50/50) -> แทงลม ${v3_target_signal === 'B' ? 'BANKER' : 'PLAYER'}`;
+                    s.status_color = "text-orange-400"; s.bet_amount = 0; s.bg_border = "border-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.6)]";
+                } else if (s.toxic_wait) {
+                    s.current_signal = null; s.current_dna = "---"; s.status_msg = s.toxic_msg; s.status_color = "text-orange-500";
+                    s.bet_amount = null; s.bg_border = "border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.4)]";
+                } else if (s.dragon_wait) {
+                    s.current_signal = null; s.current_dna = "---"; s.status_msg = "🛑 รอมังกรขาด (ทับมือ)"; s.status_color = "text-yellow-400";
+                    s.bet_amount = null; s.bg_border = getBorderColor(run_mode);
+                } else if (s.symmetry_wait) {
+                    s.current_signal = null; s.current_dna = "---"; s.status_msg = "🛑 ระวังไพ่คู่สมมาตร (ทับมือ)"; s.status_color = "text-purple-400";
+                    s.bet_amount = null; s.bg_border = "border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.4)]";
+                } else if (hand_num >= cfg.lockdown_round && s.loss_streak === 0 && s.current_tier === 0 && !s.is_trailing) {
+                    s.current_signal = null; s.current_dna = "---"; s.status_msg = "🔒 ล็อกดาวน์ปลายขอน"; s.status_color = "text-blue-400";
+                    s.bet_amount = null; s.bg_border = getBorderColor(run_mode); s.active_shoe = false;
+                } else {
+                    let raw_signal = s.is_riding_dragon ? s.riding_color : evaluateSignal(s);
+                    if (raw_signal) {
+                        s.current_signal = raw_signal; s.current_dna = get3RoadsColor(s.history, s.current_signal);
+                        if (s.is_virtual_mode) {
+                            s.bet_amount = 0;
+                            s.status_msg = raw_signal === 'B' ? "👻 แทงลมเช็คศูนย์: BANKER" : "👻 แทงลมเช็คศูนย์: PLAYER";
+                            s.status_color = "text-gray-400"; s.bg_border = "border-gray-500 shadow-[0_0_15px_rgba(156,163,175,0.4)]";
+                        } else if (s.is_trailing) { 
+                            s.bet_amount = s.active_tiers[s.current_tier][s.loss_streak];
+                            s.status_msg = raw_signal === 'B' ? "🚀 ปล่อยไหล: แทง BANKER (B)" : "🚀 ปล่อยไหล: แทง PLAYER (P)";
+                            s.status_color = "text-green-400"; s.bg_border = "border-green-400 shadow-[0_0_20px_rgba(74,222,128,0.5)]";
+                        } else {
+                            s.bet_amount = s.active_tiers[s.current_tier][s.loss_streak];
+                            if (s.is_riding_dragon) {
+                                s.status_msg = raw_signal === 'B' ? "🐉 ขี่มังกร: แทง BANKER" : "🐉 ขี่มังกร: แทง PLAYER";
+                                s.status_color = raw_signal === 'B' ? "text-red-400" : "text-blue-400";
+                                s.bg_border = raw_signal === 'B' ? "border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.5)]" : "border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]";
+                            } else {
+                                s.status_msg = raw_signal === 'B' ? "🔴 แทง BANKER (B)" : "🔵 แทง PLAYER (P)";
+                                s.status_color = raw_signal === 'B' ? "text-red-500" : "text-blue-500";
+                                s.bg_border = getBorderColor(run_mode);
+                            }
+                        }
+                    } else {
+                        s.current_signal = null; s.current_dna = "---"; s.status_msg = "ดูลาดเลา... (ทับมือ)"; s.status_color = "text-gray-300";
+                        s.bet_amount = null; s.bg_border = getBorderColor(run_mode);
+                    }
+                }
+            } 
+            
+            // 🛑 ถ้าเป็น Bottom 10 จะถูกล็อกไว้ตรงนี้ โชว์ป้ายแบน
+            if (s.genesis_status === 'BOTTOM') {
+                s.current_signal = null; s.current_dna = "---";
+                s.status_msg = "🛑 ข้ามห้องนี้ (สถิติติดลบสูง)"; s.status_color = "text-red-500 font-extrabold";
+                s.bet_amount = null; s.bg_border = "border-red-600 bg-red-900/50 shadow-[0_0_20px_rgba(220,38,38,0.6)]";
+            }
+        }
+
+        function recordResult(outcome) {
+            global_history_log.push(outcome);
+            state = rebuildStateFromLog(mode, global_history_log);
+            renderUI();
+        }
+
+        function undo() { 
+            if (global_history_log.length > 0) { 
+                global_history_log.pop(); 
+                if (global_history_log.length < 6) current_shoe_genesis_dna = ""; 
+                state = rebuildStateFromLog(mode, global_history_log);
+                renderUI(); 
+            } 
+        }
+        
+        function newShoe() {
+            let keepCarryover = false;
+
+            // สรุปข้อมูล Genesis สำหรับ Data Mining ก่อนล้างกระดาน
+            if (current_shoe_genesis_dna.length >= 6) {
+                let outcome_category = "";
+                let tp_limit = CONFIG[mode].tp;
+                if (state.is_blowout) outcome_category = "4_BLOWOUT"; 
+                else if (state.pnl >= tp_limit) outcome_category = "1_TP_ACHIEVED"; 
+                else if (state.pnl > 0) outcome_category = "2_PROFIT"; 
+                else if (state.genesis_status === 'BOTTOM' && state.pnl === 0) outcome_category = "0_NO_TRADE";
+                else outcome_category = "3_LOSS_OR_STUCK"; 
+                
+                last_genesis_report = { dna: current_shoe_genesis_dna, outcome: outcome_category, pnl: state.pnl };
+            }
+
+            if (state.loss_streak > 0 || state.current_tier > 0) {
+                if (state.global_pnl < 0) {
+                    keepCarryover = confirm("ท่านกำลังติดสเตปทบเงินกู้ชีพ (ผลรวมติดลบ) ต้องการ 'ยกยอดข้ามขอน' ไปทวงคืนในขอนใหม่หรือไม่?");
+                } else {
+                    if (!confirm("จบขอนด้วยผลรวมกำไร! ระบบจะล้างไม้ที่ค้างอยู่และเริ่ม สเตป 1 ใหม่ ยืนยันเริ่มขอนใหม่หรือไม่?")) return;
+                    keepCarryover = false;
+                }
+            } else {
+                if (!confirm("เริ่มขอนใหม่ ล้างกระดานไพ่ทั้งหมดใช่หรือไม่?")) return;
+            }
+            
+            state = getInitialState(keepCarryover); 
+            initial_shoe_state = JSON.parse(JSON.stringify(state)); 
+            global_history_log = []; 
+            current_shoe_genesis_dna = ""; 
+            renderUI();
+        }
+
+        function hideToxic() { state.show_toxic_recorder = false; renderUI(); }
+        function hideGenesis() { last_genesis_report = null; renderUI(); }
+
+        function copyToxicDNA() {
+            let input = document.getElementById('toxic-dna-input');
+            input.select(); input.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(input.value).then(() => { alert("✅ คัดลอก DNA สำเร็จ!"); });
+        }
+
+        function copyGenesisData() {
+            let input = document.getElementById('genesis-data-input');
+            input.select(); input.setSelectionRange(0, 99999); 
+            navigator.clipboard.writeText(input.value).then(() => { alert("✅ คัดลอก Genesis Data สำเร็จ!"); });
+        }
+
+        function renderUI() {
+            const sigText = document.getElementById('signal-text'), betAmtText = document.getElementById('bet-amount-text');
+            const dnaContainer = document.getElementById('dna-container'), dnaDots = document.getElementById('dna-dots');
+            
+            // 🟢 อัปเดตป้าย Top 10 Genesis
+            const goldenAlert = document.getElementById('golden-shoe-alert');
+            if (state.genesis_status === 'TOP') { goldenAlert.classList.remove('hidden'); } 
+            else { goldenAlert.classList.add('hidden'); }
+
+            sigText.innerText = state.status_msg; sigText.className = `text-2xl sm:text-3xl font-bold mt-1 ${state.status_color}`;
+            
+            if (state.current_signal && state.current_dna && state.current_dna !== "---") {
+                dnaContainer.classList.remove('hidden'); let dotsHtml = '';
+                for(let char of state.current_dna) {
+                    if (char === 'R') dotsHtml += '<span class="w-3 h-3 rounded-full bg-red-500 shadow-sm border border-red-700"></span>';
+                    else if (char === 'B') dotsHtml += '<span class="w-3 h-3 rounded-full bg-blue-500 shadow-sm border border-blue-700"></span>';
+                    else dotsHtml += '<span class="text-gray-500 text-xs font-bold px-1">-</span>';
+                }
+                dnaDots.innerHTML = dotsHtml;
+            } else { dnaContainer.classList.add('hidden'); dnaDots.innerHTML = ''; }
+            
+            if (state.bet_amount !== null && state.active_shoe) {
+                if (state.bet_amount === 0) {
+                    betAmtText.innerText = `จำนวนเงิน: 0 ฿ (Virtual)`; 
+                    betAmtText.className = `text-xl font-bold mt-2 text-gray-400`;
+                } else {
+                    betAmtText.innerText = `จำนวนเงิน: ${state.bet_amount} ฿`; 
+                    betAmtText.className = `text-xl font-bold mt-2 ${state.status_color}`;
+                }
+            } else { 
+                betAmtText.innerText = "-"; 
+                betAmtText.className = "text-xl font-bold mt-2 text-transparent"; 
+            }
+
+            let regime_text = "⚖️ Balanced";
+            if (state.regime_display === "P-Dom") regime_text = "🔵 P-Dom";
+            if (state.regime_display === "B-Dom") regime_text = "🔴 B-Dom";
+            document.getElementById('market-regime').innerText = `ตลาด: ${regime_text}`;
+
+            document.getElementById('commander-zone').className = `w-full max-w-md bg-slate-800 rounded-2xl p-5 border-2 text-center mb-4 transition-all duration-300 ${state.bg_border} relative overflow-hidden`;
+            document.getElementById('pnl-text').innerText = (state.pnl > 0 ? "+" : "") + state.pnl + " ฿";
+            document.getElementById('pnl-text').className = `text-2xl font-bold mt-1 ${state.pnl > 0 ? 'text-green-400' : (state.pnl < 0 ? 'text-red-400' : 'text-white')}`;
+            document.getElementById('global-pnl-text').innerText = (state.global_pnl > 0 ? "+" : "") + state.global_pnl + " ฿";
+            document.getElementById('global-pnl-text').className = `text-lg font-semibold mt-1 ${state.global_pnl > 0 ? 'text-green-400' : (state.global_pnl < 0 ? 'text-red-400' : 'text-gray-300')}`;
+            document.getElementById('step-text').innerText = state.current_tier + 1;
+            document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
+            document.getElementById('round-text').innerText = `ตาที่ ${state.history_all.length}`;
+
+            // 🚨 โชว์กล่อง Toxic Recorder
+            const toxicZone = document.getElementById('toxic-recorder-zone');
+            if (state.show_toxic_recorder) {
+                toxicZone.classList.remove('hidden');
+                document.getElementById('toxic-dna-input').value = state.toxic_dna_captured;
+            } else { toxicZone.classList.add('hidden'); }
+
+            // 📊 โชว์กล่อง Genesis Report
+            const genesisZone = document.getElementById('genesis-report-zone');
+            if (last_genesis_report) {
+                genesisZone.classList.remove('hidden');
+                let catText = "";
+                if(last_genesis_report.outcome === "1_TP_ACHIEVED") catText = `🏆 จบเป้าหมาย TP (+${last_genesis_report.pnl} ฿)`;
+                else if(last_genesis_report.outcome === "2_PROFIT") catText = `🟢 จบกำไร (+${last_genesis_report.pnl} ฿)`;
+                else if(last_genesis_report.outcome === "3_LOSS_OR_STUCK") catText = `🔴 จบติดลบ/ค้าง (${last_genesis_report.pnl} ฿)`;
+                else if(last_genesis_report.outcome === "4_BLOWOUT") catText = `💥 พอร์ตแตก (${last_genesis_report.pnl} ฿)`;
+                else if(last_genesis_report.outcome === "0_NO_TRADE") catText = `🛡️ บอทไม่ยอมเล่น (${last_genesis_report.pnl} ฿)`;
+                
+                document.getElementById('genesis-outcome-text').innerText = `ผลลัพธ์: ${catText}`;
+                document.getElementById('genesis-data-input').value = `[${last_genesis_report.dna}] = ${last_genesis_report.outcome}`;
+            } else { genesisZone.classList.add('hidden'); }
+
+            const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
+            state.history_all.forEach(out => {
+                let div = document.createElement('div'); div.className = `w-6 h-6 rounded-full flex items-center justify-center text-[10px] bead-${out.toLowerCase()} shadow-sm`;
+                div.innerText = out; histContainer.appendChild(div);
+            });
+            
+            let sysInfo = "✅ ระบบพร้อมรบ";
+            if(state.genesis_status === 'BOTTOM') sysInfo = "🛑 บัญชีดำ: ห้ามเข้าเล่น!";
+            else if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำทำงาน!";
+            else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!";
+            else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3 ทำงาน"; 
+            else if(state.is_virtual_mode) sysInfo = "👻 แทงลมเพื่อเช็คความแม่นยำ";
+            else if(state.is_trailing) sysInfo = "🚀 ทะลุเป้า! กำลังปล่อยไหล (Trailing)";
+            else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกรอัจฉริยะ";
+            else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่สมมาตร";
+            else if(state.dragon_wait) sysInfo = "🐉 ระบบป้องกันมังกร";
+            if(!state.active_shoe && state.genesis_status !== 'BOTTOM') sysInfo = "🛑 จบขอนแล้ว";
+            document.getElementById('system-status').innerText = sysInfo;
+        }
+
+        renderUI();
+    </script>
+</body>
+</html>
