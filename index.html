@@ -5,43 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0f172a">
-    <title>Killer Baccarat OS - V.16.6.16 Cloud Sync</title>
+    <title>Killer Baccarat OS - Cloud Sync</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html, body { min-height: 100vh; font-family: 'Prompt', sans-serif; background-color: #0f172a; color: white; user-select: none; -webkit-tap-highlight-color: transparent; }
         .app-wrapper { display: flex; flex-direction: column; min-height: 100vh; max-width: 1100px; margin: 0 auto; padding: 16px 12px; box-sizing: border-box; gap: 16px; }
-        
         .btn-press:active { transform: scale(0.95); }
         .bead-b { background-color: #ef4444; color: white; font-weight: bold; }
         .bead-p { background-color: #3b82f6; color: white; font-weight: bold; }
         .bead-t { background-color: #22c55e; color: white; font-weight: bold; }
-        
         @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.3); } 50% { box-shadow: 0 0 20px rgba(34,197,94,0.6); } }
         .golden-glow { animation: pulse-green 2s infinite; }
         @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 10px rgba(239,68,68,0.3); } 50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); } }
         .danger-glow { animation: pulse-red 2s infinite; }
         @keyframes bead-pop { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.8); } 50% { transform: scale(1.3); box-shadow: 0 0 15px 5px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
         .latest-bead { animation: bead-pop 1s ease-out; border: 2px solid white; z-index: 10;}
-
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .bead-plate-grid { display: grid; grid-template-rows: repeat(6, 26px); grid-auto-columns: 26px; grid-auto-flow: column; gap: 4px; padding: 4px; }
         .font-sarabun { font-family: 'Sarabun', sans-serif; }
-
         .fixed-commander-mobile { height: 125px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
         @media (min-width: 1024px) { .fixed-commander-mobile { height: 160px; } }
     </style>
 </head>
-<body class="bg-slate-900 text-white">
+<body>
 
 <div class="app-wrapper">
-    
     <div class="flex justify-between items-center shrink-0">
         <div class="flex flex-col">
             <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 leading-tight">KILLER OS</h1>
-            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.16 Cloud Sync</span>
+            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.16 Cloud Data</span>
         </div>
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
@@ -60,9 +54,7 @@
     </div>
 
     <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 flex-1">
-
         <div class="lg:col-span-7 flex flex-col gap-6">
-            
             <div id="commander-zone" class="w-full rounded-3xl p-4 md:p-6 border-2 text-center shadow-2xl shrink-0 transition-colors duration-300 bg-slate-800/80 fixed-commander-mobile">
                 <div class="flex justify-between items-start w-full">
                     <span id="mode-badge" class="text-xs md:text-sm font-bold px-3 py-1 rounded-lg">Whale V.3</span>
@@ -75,7 +67,6 @@
                         <span id="system-status" class="text-[10px] md:text-xs text-gray-300 font-medium hidden md:inline-block">✅ พร้อมรบ</span>
                     </div>
                 </div>
-                
                 <div class="flex items-center justify-center flex-1 w-full">
                     <h2 id="signal-text" class="font-sarabun text-2xl sm:text-3xl md:text-4xl font-bold tracking-normal leading-none text-gray-300 whitespace-nowrap overflow-hidden text-ellipsis w-full">ดูลาดเลา...</h2>
                 </div>
@@ -91,11 +82,9 @@
                     <button onclick="recordResult('B')" class="btn-press bg-red-600 active:bg-red-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(239,68,68,0.4)] transition-all">B</button>
                 </div>
             </div>
-
         </div>
 
         <div class="lg:col-span-5 flex flex-col gap-5">
-            
             <div class="grid grid-cols-2 gap-3 shrink-0">
                 <div class="bg-slate-800/80 p-4 md:p-5 rounded-2xl border border-slate-700/50 flex flex-col justify-center items-center shadow-sm">
                     <p class="text-xs text-gray-400 uppercase tracking-wider">กำไรขอนนี้</p>
@@ -116,45 +105,26 @@
             <div class="flex flex-wrap gap-2 shrink-0">
                 <button onclick="undo()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-sm font-semibold transition-colors">↩️ เลิกทำ</button>
                 <button onclick="newShoe()" class="flex-[1.5] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-sm font-bold transition-colors">🔄 เริ่มขอนใหม่</button>
-                
                 <div class="px-3 bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[11px] border border-emerald-800 flex items-center justify-center shadow-inner">
-                    ☁️ Sync <span id="db-count" class="text-[10px] bg-emerald-700/50 text-white px-1.5 py-0.5 rounded ml-1">0</span>
+                    ☁️ Cloud Sync <span id="db-count" class="text-[10px] bg-emerald-700/50 text-white px-1.5 py-0.5 rounded ml-1">...</span>
                 </div>
-                
                 <button onclick="hardResetData()" class="px-3 bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-400 text-xs border border-gray-600 transition-colors">🧹 ล้าง</button>
-            </div>
-
-            <div id="data-recorders-zone" class="w-full shrink-0 flex flex-col gap-2 empty:hidden">
-                <div id="toxic-recorder-zone" class="bg-slate-900 p-3 rounded-xl border border-red-500/50 hidden flex items-center justify-between">
-                    <p class="text-xs font-bold text-red-500 mr-2">🚨 บัญชีดำ!</p>
-                    <input type="text" id="toxic-dna-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-red-400 font-mono text-[10px] md:text-xs text-center" value="">
-                    <button onclick="copyToxicDNA()" class="ml-2 bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
-                    <button onclick="hideToxic()" class="ml-1 text-gray-500 text-xs px-2">X</button>
-                </div>
-                <div id="genesis-report-zone" class="bg-slate-900 p-3 rounded-xl border border-indigo-500/50 hidden flex flex-col gap-2">
-                    <div class="flex justify-between items-center">
-                        <p id="genesis-outcome-text" class="text-xs font-bold text-indigo-300 truncate"></p>
-                        <button onclick="hideGenesis()" class="text-gray-500 text-xs px-2">X</button>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="genesis-data-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-indigo-300 font-mono text-[10px] md:text-xs text-center" value="">
-                        <button onclick="copyGenesisData()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
-                    </div>
-                </div>
             </div>
 
             <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 shadow-inner overflow-x-auto overflow-y-hidden no-scrollbar flex-1 min-h-[200px]">
                 <p class="text-xs text-gray-500 mb-2 font-medium pl-1">กระดานลูกปัด</p>
                 <div id="history-container" class="bead-plate-grid w-max mx-auto md:mx-0"></div>
             </div>
-            
         </div>
     </div>
 </div>
+
 <script>
-    // 🔑 ตั้งค่า SUPABASE ของคุณที่นี่
-    const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co/rest/v1/"; // ตัวอย่าง: https://xxxx.supabase.co
-    const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; // คีย์ยาวๆ จากหน้า API
+    // ==========================================
+    // 🔑 1. ใส่ข้อมูล SUPABASE ของคุณที่นี่
+    // ==========================================
+    const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co/rest/v1/"; 
+    const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
     function vibrate(duration) { if (navigator.vibrate) navigator.vibrate(duration); }
 
@@ -169,34 +139,37 @@
     const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
     const TOXIC_4 = "BBBBBPPBBBBB"; const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
-    let shoe_database = []; 
-    let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let last_genesis_report = null; let state, initial_shoe_state;
+    let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
     const STORAGE_KEY = 'killerBaccaratData_V16_Cloud';
 
-    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, last_genesis_report, state, initial_shoe_state, shoe_database })); }
-    
+    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state })); }
     function loadFromStorage() {
         const data = localStorage.getItem(STORAGE_KEY);
         if (data) {
             try {
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
-                current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; last_genesis_report = parsed.last_genesis_report || null;
-                shoe_database = parsed.shoe_database || []; state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
+                current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
+                state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
             } catch(e) { return false; }
         } return false;
     }
 
     function hardResetData() { 
         vibrate(50); 
-        if(confirm("⚠️ ล้างความจำระบบทั้งหมด! ยืนยันหรือไม่?")) { 
-            localStorage.removeItem(STORAGE_KEY); window.location.reload(); 
-        } 
+        if(confirm("⚠️ ล้างความจำกระดานทั้งหมดใช่ไหม?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload(); } 
     }
 
-    // ☁️ ฟังก์ชันยิงข้อมูลขึ้น Supabase Database
+    // ☁️ 2. ระบบส่งข้อมูลขึ้น Supabase
     async function pushToSupabase(record) {
-        if (!SUPABASE_URL.includes("http")) return; // ข้ามถ้ายังไม่ได้ตั้งค่า
+        let countEl = document.getElementById('db-count');
+        countEl.innerText = "⏳";
         
+        if (SUPABASE_URL.includes("xxxxxx")) {
+            alert("กรุณาใส่ URL และ API Key ของ Supabase ในโค้ดก่อนครับ!");
+            countEl.innerText = "❌";
+            return;
+        }
+
         try {
             const response = await fetch(`${SUPABASE_URL}/rest/v1/killer_baccarat_logs`, {
                 method: 'POST',
@@ -206,33 +179,28 @@
                     'Content-Type': 'application/json',
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    shoe_no: record.shoe_no,
-                    shoe_id: record.shoe_id,
-                    total_rounds: record.rounds,
-                    pattern_pbt: record.pattern,
-                    pnl: record.pnl,
-                    outcome: record.outcome
-                })
+                body: JSON.stringify(record)
             });
             
             if (!response.ok) {
                 console.error("Supabase Error:", await response.text());
+                countEl.innerText = "❌ Error";
             } else {
-                console.log("☁️ Data Synced to Supabase Successfully!");
+                console.log("☁️ Data Synced to Supabase!");
+                countEl.innerText = "✅ OK";
             }
         } catch (error) {
             console.error("Network Error Syncing to Supabase:", error);
+            countEl.innerText = "📡 Error";
         }
     }
 
     function getInitialState(keepCarryover = false) {
         let base_tiers = JSON.parse(JSON.stringify(CONFIG[mode].tiers)); let final_tiers = base_tiers;
-        let initial_global_pnl = 0, initial_current_tier = 0, initial_loss_streak = 0, initial_global_losses = 0, initial_show_toxic = false, initial_toxic_dna = "";
+        let initial_global_pnl = 0, initial_current_tier = 0, initial_loss_streak = 0, initial_global_losses = 0;
         if (keepCarryover && typeof state !== 'undefined' && state) {
             initial_global_pnl = state.global_pnl; initial_current_tier = state.current_tier; initial_loss_streak = state.loss_streak;
-            initial_global_losses = state.global_consecutive_losses; initial_show_toxic = state.show_toxic_recorder; initial_toxic_dna = state.toxic_dna_captured;
-            final_tiers = JSON.parse(JSON.stringify(state.active_tiers)); 
+            initial_global_losses = state.global_consecutive_losses; final_tiers = JSON.parse(JSON.stringify(state.active_tiers)); 
             if (initial_current_tier === 1) {
                 let remaining_bullets = final_tiers[1].length - initial_loss_streak;
                 while (remaining_bullets < 3) { let last_bet = final_tiers[1][final_tiers[1].length - 1]; final_tiers[1].push(last_bet * 2); remaining_bullets = final_tiers[1].length - initial_loss_streak; }
@@ -242,8 +210,7 @@
             history_all: [], history: [], pnl: 0, global_pnl: initial_global_pnl, current_tier: initial_current_tier, loss_streak: initial_loss_streak, active_tiers: final_tiers, 
             current_signal: null, current_dna: "---", bet_amount: null, active_shoe: true, status_msg: "ดูลาดเลา...", status_color: "text-gray-300", 
             dragon_wait: false, dragon_color: null, symmetry_wait: false, toxic_wait: false, toxic_msg: "", regime_display: "Balanced", last_bet_won: false, is_riding_dragon: false, riding_color: null,
-            is_virtual_mode: false, is_trailing: false, global_consecutive_losses: initial_global_losses, is_blowout: false, genesis_checked: false, genesis_status: null,
-            show_toxic_recorder: initial_show_toxic, toxic_dna_captured: initial_toxic_dna, needs_toxic_capture: false
+            is_virtual_mode: false, is_trailing: false, global_consecutive_losses: initial_global_losses, is_blowout: false, genesis_checked: false, genesis_status: null
         };
     }
 
@@ -299,7 +266,7 @@
                     s.last_bet_won = is_win; 
                     if (is_win) { s.pnl += amt; s.global_pnl += amt; s.loss_streak = 0; s.current_tier = 0; s.global_consecutive_losses = 0; if (s.pnl >= cfg.tp) s.is_trailing = true; } 
                     else {
-                        s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; if (s.global_consecutive_losses === 5) s.needs_toxic_capture = true; 
+                        s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; 
                         if (s.is_trailing) { s.active_shoe = false; s.status_msg = `🏆 ล็อกกำไร`; s.status_color = "text-green-400"; s.bet_amount = null; s.current_dna = "---"; } 
                         else {
                             if (s.is_riding_dragon) s.is_riding_dragon = false;
@@ -308,7 +275,7 @@
                             let max_losses = s.active_tiers[s.current_tier].length;
                             if (s.loss_streak >= max_losses) {
                                 s.loss_streak = 0; if (s.current_tier < s.active_tiers.length - 1) { s.current_tier++; } 
-                                else { s.current_tier = 0; s.active_shoe = false; s.is_blowout = true; s.status_msg = `💥 พอร์ตแตก ย้ายขอน!`; s.status_color = "text-red-500"; s.bet_amount = null; s.current_dna = "---"; s.needs_toxic_capture = true; }
+                                else { s.current_tier = 0; s.active_shoe = false; s.is_blowout = true; s.status_msg = `💥 พอร์ตแตก ย้ายขอน!`; s.status_color = "text-red-500"; s.bet_amount = null; s.current_dna = "---"; }
                             }
                         }
                     }
@@ -323,19 +290,14 @@
             if (GENESIS_TOP_10.includes(gen6)) s.genesis_status = 'TOP'; else if (GENESIS_BOTTOM_10.includes(gen6)) s.genesis_status = 'BOTTOM';
         }
 
-        if (s.needs_toxic_capture) { s.toxic_dna_captured = s.history.slice(-18).join(''); s.show_toxic_recorder = true; s.needs_toxic_capture = false; }
-
         if (s.active_shoe) {
             if (s.dragon_wait) { if (outcome !== 'T' && outcome !== s.dragon_color) s.dragon_wait = false; }
             let hist = s.history, hist_str = hist.join(''), len = hist.length, strks = getStreakLengths(hist); s.toxic_wait = false; s.toxic_msg = "";
             if (hist_str.length >= 10 && TOXIC_1.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             if (cfg.use_toxic_v2) {
                 if (hist_str.length >= 10 && TOXIC_2.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
-                if (hist_str.length >= 10 && TOXIC_3.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 8 && TOXIC_4.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
-                if (hist_str.length >= 8 && TOXIC_5.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 12 && TOXIC_6.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
-                if (hist_str.length >= 12 && TOXIC_7.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             }
             if (strks.length >= 3) { let last3 = strks.slice(-3); if (last3.every(st => st === 2 || st === 3)) s.symmetry_wait = true; if (strks[strks.length - 1] >= 4 || last3.every(st => st === 1)) s.symmetry_wait = false; }
             if (s.toxic_wait || s.symmetry_wait || s.dragon_wait) { s.is_virtual_mode = true; }
@@ -385,7 +347,7 @@
     function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
     function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
     
-    // 💥 NEW: ส่งข้อมูลขึ้น Cloud ทันทีที่จบขอน
+    // 💥 3. ส่งข้อมูลขอนขึ้น Supabase เมื่อเริ่มขอนใหม่
     function newShoe() {
         vibrate(50); let keepCarryover = false;
         
@@ -396,8 +358,6 @@
             else if (state.pnl >= tp_limit) outcome_category = "1_TP_ACHIEVED"; 
             else if (state.pnl > 0) outcome_category = "2_PROFIT"; 
             else if (state.genesis_status === 'BOTTOM' && state.pnl === 0) outcome_category = "0_NO_TRADE";
-            
-            last_genesis_report = { dna: current_shoe_genesis_dna, outcome: outcome_category, pnl: state.pnl };
         }
 
         if (state.loss_streak > 0 || state.current_tier > 0) {
@@ -405,7 +365,6 @@
             else { if (!confirm("จบกำไร! ระบบจะล้างไม้ที่ค้างอยู่ ยืนยันเริ่มขอนใหม่?")) return; keepCarryover = false; }
         } else { if (!confirm("ล้างกระดานและเริ่มขอนใหม่? (ข้อมูลจะถูก Sync ขึ้น Cloud)")) return; }
         
-        // ☁️ ยิงข้อมูลขึ้น Supabase
         if (global_history_log.length > 0) {
             let now = new Date();
             let pad = (n) => n.toString().padStart(2, '0');
@@ -413,24 +372,18 @@
             let timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             
             let record = {
-                shoe_no: shoe_database.length + 1,
+                shoe_no: Math.floor(Math.random() * 10000), // สุ่มเลขขอนชั่วคราว
                 shoe_id: `SHOE_${dateStr}_${timeStr}`,
                 rounds: global_history_log.length,
                 pattern: global_history_log.join(""),
                 pnl: state.pnl,
                 outcome: outcome_category
             };
-            shoe_database.push(record); // เก็บใน Local ด้วย
-            pushToSupabase(record);     // ส่งขึ้น Cloud ทันที!
+            pushToSupabase(record); 
         }
 
         state = getInitialState(keepCarryover); initial_shoe_state = JSON.parse(JSON.stringify(state)); global_history_log = []; current_shoe_genesis_dna = ""; saveToStorage(); renderUI();
     }
-
-    function hideToxic() { state.show_toxic_recorder = false; renderUI(); }
-    function hideGenesis() { last_genesis_report = null; renderUI(); }
-    function copyToxicDNA() { let input = document.getElementById('toxic-dna-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
-    function copyGenesisData() { let input = document.getElementById('genesis-data-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
 
     function renderUI() {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
@@ -438,10 +391,7 @@
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         
         document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🦢🔥 Whale V.3";
-        document.getElementById('mode-badge').className = mode === 'WHALE_V1' ? "text-[10px] md:text-xs font-bold text-yellow-400 px-3 py-1.5 bg-yellow-900/30 rounded-lg" : 
-                         mode === 'WHALE_V2' ? "text-[10px] md:text-xs font-bold text-fuchsia-400 px-3 py-1.5 bg-fuchsia-900/30 rounded-lg" : 
-                         "text-[10px] md:text-xs font-bold text-red-400 px-3 py-1.5 bg-red-900/30 rounded-lg";
-
+        
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') goldenAlert.classList.remove('hidden'); else goldenAlert.classList.add('hidden');
         if (state.genesis_status === 'BOTTOM') dangerAlert.classList.remove('hidden'); else dangerAlert.classList.add('hidden');
@@ -481,17 +431,6 @@
         document.getElementById('step-text').innerText = state.current_tier + 1;
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
-        
-        document.getElementById('db-count').innerText = shoe_database.length;
-
-        const toxicZone = document.getElementById('toxic-recorder-zone');
-        if (state.show_toxic_recorder) { toxicZone.classList.remove('hidden'); document.getElementById('toxic-dna-input').value = state.toxic_dna_captured; } else { toxicZone.classList.add('hidden'); }
-        const genesisZone = document.getElementById('genesis-report-zone');
-        if (last_genesis_report) {
-            genesisZone.classList.remove('hidden');
-            let catText = last_genesis_report.outcome === "1_TP_ACHIEVED" ? `🏆 TP (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "2_PROFIT" ? `🟢 กำไร (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "3_LOSS_OR_STUCK" ? `🔴 ติดลบ (${last_genesis_report.pnl})` : last_genesis_report.outcome === "4_BLOWOUT" ? `💥 แตก (${last_genesis_report.pnl})` : `🛡️ ไม่เล่น (${last_genesis_report.pnl})`;
-            document.getElementById('genesis-outcome-text').innerText = catText; document.getElementById('genesis-data-input').value = `[${last_genesis_report.dna}] = ${last_genesis_report.outcome}`;
-        } else { genesisZone.classList.add('hidden'); }
 
         const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
         state.history_all.forEach((out, index) => {
