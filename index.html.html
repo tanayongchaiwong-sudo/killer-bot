@@ -2,15 +2,40 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
     <title>Killer Baccarat OS - V.16.6.1 Ultimate</title>
+    
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Killer OS">
     <meta name="theme-color" content="#0f172a">
-    
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiS2lsbGVyIE9TIiwic2hvcnRfbmFtZSI6IktpbGxlciBPUyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwZjE3MmEiLCJ0aGVtZV9jb2xvciI6IiMwZjE3MmEifQ==">
+
+    <script>
+        (function() {
+            const manifest = {
+                "name": "Killer Baccarat OS",
+                "short_name": "Killer OS",
+                "start_url": window.location.href,
+                "display": "standalone",
+                "background_color": "#0f172a",
+                "theme_color": "#0f172a",
+                "icons": [{
+                    "src": "https://cdn-icons-png.flaticon.com/512/5994/5994754.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any"
+                }]
+            };
+            const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blob);
+            const link = document.createElement('link');
+            link.rel = 'manifest';
+            link.href = manifestURL;
+            document.head.appendChild(link);
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
