@@ -2,40 +2,8 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
-    <title>Killer Baccarat OS - V.16.6.1 Ultimate</title>
-    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Killer OS">
-    <meta name="theme-color" content="#0f172a">
-
-    <script>
-        (function() {
-            const manifest = {
-                "name": "Killer Baccarat OS",
-                "short_name": "Killer OS",
-                "start_url": window.location.href,
-                "display": "standalone",
-                "background_color": "#0f172a",
-                "theme_color": "#0f172a",
-                "icons": [{
-                    "src": "https://cdn-icons-png.flaticon.com/128/9626/9626678.png",
-                    "sizes": "512x512",
-                    "type": "image/png",
-                    "purpose": "any"
-                }]
-            };
-            const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-            const manifestURL = URL.createObjectURL(blob);
-            const link = document.createElement('link');
-            link.rel = 'manifest';
-            link.href = manifestURL;
-            document.head.appendChild(link);
-        })();
-    </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Killer Baccarat OS - V.16.6.2 Resilient</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -44,19 +12,26 @@
         .bead-b { background-color: #ef4444; color: white; font-weight: bold; }
         .bead-p { background-color: #3b82f6; color: white; font-weight: bold; }
         .bead-t { background-color: #22c55e; color: white; font-weight: bold; }
+        
         @keyframes pulse-green {
             0%, 100% { box-shadow: 0 0 15px rgba(34,197,94,0.4); }
             50% { box-shadow: 0 0 25px rgba(34,197,94,0.8); }
         }
         .golden-glow { animation: pulse-green 2s infinite; }
+        
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 15px rgba(239,68,68,0.4); }
+            50% { box-shadow: 0 0 25px rgba(239,68,68,0.8); }
+        }
+        .danger-glow { animation: pulse-red 2s infinite; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-4 px-4 pb-20">
+<body class="min-h-screen flex flex-col items-center py-4 px-4 pb-20 justify-start">
 
     <div class="w-full max-w-md flex justify-between items-center mb-4">
         <div>
             <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400">KILLER OS</h1>
-            <p class="text-[10px] text-gray-400">V.16.6.1 • Immortal + Genesis Filter</p>
+            <p class="text-[10px] text-gray-400">V.16.6.2 • Resilient & Responsive</p>
         </div>
         <div class="flex bg-slate-800 p-1 rounded-lg border border-slate-700 gap-1 flex-wrap justify-end">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-2 py-1 rounded text-xs font-semibold text-gray-400 hover:text-white transition-all whitespace-nowrap">🐋 V.1</button>
@@ -68,6 +43,11 @@
     <div id="golden-shoe-alert" class="w-full max-w-md bg-green-600/90 border border-green-400 rounded-xl p-3 text-center mb-4 hidden golden-glow transition-all duration-300">
         <p class="text-white font-extrabold text-lg">🟢 เข้าเล่นขอนนี้ ทันที!</p>
         <p class="text-xs text-green-100">ระบบสแกนพบ Genesis 6 ตาแรกอยู่ใน Top 10 ทำกำไร</p>
+    </div>
+
+    <div id="danger-shoe-alert" class="w-full max-w-md bg-red-600/90 border border-red-400 rounded-xl p-3 text-center mb-4 hidden danger-glow transition-all duration-300">
+        <p class="text-white font-extrabold text-lg">🔴 แจ้งเตือน: สถิติติดลบสูง</p>
+        <p class="text-xs text-red-100">Genesis 6 ตาแรกอยู่ใน Bottom 10 (ระมัดระวังเป็นพิเศษ)</p>
     </div>
 
     <div id="commander-zone" class="w-full max-w-md bg-slate-800 rounded-2xl p-5 border-2 text-center mb-4 transition-all duration-300 relative overflow-hidden">
@@ -139,7 +119,10 @@
             <button onclick="recordResult('T')" class="btn-press bg-green-600 hover:bg-green-500 text-white py-4 rounded-xl text-xl font-bold shadow-lg shadow-green-500/20">TIE</button>
             <button onclick="recordResult('B')" class="btn-press bg-red-600 hover:bg-red-500 text-white py-4 rounded-xl text-2xl font-bold shadow-lg shadow-red-500/20">B</button>
         </div>
-        <button onclick="newShoe()" class="w-full mt-3 bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-bold text-white shadow-lg transition-colors">🔄 ล้างกระดาน / เริ่มขอนใหม่</button>
+        <div class="flex gap-2 mt-3">
+            <button onclick="newShoe()" class="w-[70%] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl font-bold text-white shadow-lg transition-colors text-sm">🔄 ล้างกระดาน / เริ่มขอนใหม่</button>
+            <button onclick="hardResetData()" class="w-[30%] bg-gray-700 hover:bg-gray-600 py-3 rounded-xl font-bold text-gray-300 transition-colors text-xs border border-gray-600">🧹 ล้างความจำ</button>
+        </div>
     </div>
 
     <div class="w-full max-w-md">
@@ -154,7 +137,6 @@
             'WHALE_V3': { tiers: [[100, 200, 400], [800, 1600, 3200, 6400]], tp: 500, sl: -99999, lockdown_round: 45, use_dragon_wait: true, use_toxic_v2: true, use_v3_shield: true } 
         };
 
-        // 📋 ฐานข้อมูลสแกนห้อง (Genesis DB)
         const GENESIS_TOP_10 = ['PBBPBP', 'PBPBPP', 'BPPBPB', 'PPPPBB', 'PPPBBP', 'PPPBPB', 'PPPBBB', 'BPBBBP', 'BPBBBB', 'BBPBBB'];
         const GENESIS_BOTTOM_10 = ['PPBBPP', 'BPPBBB', 'BBBBPB', 'PBPPBB', 'PPBPPP', 'PBBPPB', 'PBBPPP', 'PBBBBB', 'BBBBBB', 'PBPBBP'];
 
@@ -170,6 +152,41 @@
         let global_history_log = []; 
         let current_shoe_genesis_dna = ""; 
         let last_genesis_report = null; 
+        
+        let state, initial_shoe_state;
+
+        // 💾 ระบบ Local Storage Persistence
+        function saveToStorage() {
+            const data = {
+                mode, global_history_log, current_shoe_genesis_dna, last_genesis_report,
+                state, initial_shoe_state
+            };
+            localStorage.setItem('killerBaccaratData_V16', JSON.stringify(data));
+        }
+
+        function loadFromStorage() {
+            const data = localStorage.getItem('killerBaccaratData_V16');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    mode = parsed.mode;
+                    global_history_log = parsed.global_history_log || [];
+                    current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || "";
+                    last_genesis_report = parsed.last_genesis_report || null;
+                    state = parsed.state;
+                    initial_shoe_state = parsed.initial_shoe_state;
+                    return true;
+                } catch(e) { return false; }
+            }
+            return false;
+        }
+
+        function hardResetData() {
+            if(confirm("⚠️ ลบความจำระบบทั้งหมด (ประวัติ, ยอดไม้ค้าง)? ยืนยันหรือไม่?")) {
+                localStorage.removeItem('killerBaccaratData_V16');
+                window.location.reload();
+            }
+        }
 
         function getBorderColor(m) {
             if (m === 'WHALE_V1') return "border-yellow-500";
@@ -215,8 +232,11 @@
             };
         }
 
-        let state = getInitialState(false);
-        let initial_shoe_state = JSON.parse(JSON.stringify(state)); 
+        // 🟢 INITIALIZATION LOGIC
+        if (!loadFromStorage()) {
+            state = getInitialState(false);
+            initial_shoe_state = JSON.parse(JSON.stringify(state)); 
+        }
 
         function rebuildStateFromLog(mode_to_run, log_array) {
             let temp_state = JSON.parse(JSON.stringify(initial_shoe_state));
@@ -241,10 +261,10 @@
             document.getElementById('mode-badge').className = badgeClass;
             
             state = rebuildStateFromLog(mode, global_history_log);
+            saveToStorage();
             renderUI();
         }
 
-        // 🔥 กฎเหล็กของ V.3: The 4-Streak RRR Shield
         function applyV3Shield(history, dna) {
             if (!history || history.length < 4) return false;
             let streak = 1;
@@ -358,7 +378,7 @@
                             if (s.pnl >= cfg.tp) { s.is_trailing = true; }
                         } else {
                             s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; 
-                            if (s.global_consecutive_losses === 5) { s.needs_toxic_capture = true; } // Trigger Auto-Toxic
+                            if (s.global_consecutive_losses === 5) { s.needs_toxic_capture = true; } 
 
                             if (s.is_trailing) {
                                 s.active_shoe = false;
@@ -383,7 +403,7 @@
                                         s.status_color = "text-red-500";
                                         s.bg_border = "border-red-600 bg-red-900/40";
                                         s.bet_amount = null; s.current_dna = "---";
-                                        s.needs_toxic_capture = true; // Trigger Auto-Toxic on blowout
+                                        s.needs_toxic_capture = true; 
                                     }
                                 }
                             }
@@ -397,7 +417,7 @@
             s.history_all.push(outcome);
             if (outcome === 'B' || outcome === 'P') s.history.push(outcome);
 
-            // 🎯 NEW: GENESIS FILTER (สแกน 6 ตาแรก)
+            // 🎯 GENESIS FILTER (สแกน 6 ตาแรก)
             if (s.history.length === 6 && !s.genesis_checked) {
                 s.genesis_checked = true;
                 let gen6 = s.history.slice(0, 6).join('');
@@ -407,11 +427,10 @@
                     s.genesis_status = 'TOP';
                 } else if (GENESIS_BOTTOM_10.includes(gen6)) {
                     s.genesis_status = 'BOTTOM';
-                    s.active_shoe = false; // 🔒 ล็อกดาวน์การแทงเงินทันที
+                    // 💡 แก้ไข: อนุญาตให้ระบบรันต่อได้ (เอา active_shoe = false ออก) เพื่อให้มันโชว์ Signal เผื่อไว้
                 }
             }
 
-            // 🚨 Trigger Toxic Data Capture
             if (s.needs_toxic_capture) {
                 s.toxic_dna_captured = s.history.slice(-18).join('');
                 s.show_toxic_recorder = true;
@@ -510,18 +529,12 @@
                     }
                 }
             } 
-            
-            // 🛑 ถ้าเป็น Bottom 10 จะถูกล็อกไว้ตรงนี้ โชว์ป้ายแบน
-            if (s.genesis_status === 'BOTTOM') {
-                s.current_signal = null; s.current_dna = "---";
-                s.status_msg = "🛑 ข้ามห้องนี้ (สถิติติดลบสูง)"; s.status_color = "text-red-500 font-extrabold";
-                s.bet_amount = null; s.bg_border = "border-red-600 bg-red-900/50 shadow-[0_0_20px_rgba(220,38,38,0.6)]";
-            }
         }
 
         function recordResult(outcome) {
             global_history_log.push(outcome);
             state = rebuildStateFromLog(mode, global_history_log);
+            saveToStorage();
             renderUI();
         }
 
@@ -530,6 +543,7 @@
                 global_history_log.pop(); 
                 if (global_history_log.length < 6) current_shoe_genesis_dna = ""; 
                 state = rebuildStateFromLog(mode, global_history_log);
+                saveToStorage();
                 renderUI(); 
             } 
         }
@@ -537,7 +551,6 @@
         function newShoe() {
             let keepCarryover = false;
 
-            // สรุปข้อมูล Genesis สำหรับ Data Mining ก่อนล้างกระดาน
             if (current_shoe_genesis_dna.length >= 6) {
                 let outcome_category = "";
                 let tp_limit = CONFIG[mode].tp;
@@ -565,6 +578,7 @@
             initial_shoe_state = JSON.parse(JSON.stringify(state)); 
             global_history_log = []; 
             current_shoe_genesis_dna = ""; 
+            saveToStorage();
             renderUI();
         }
 
@@ -587,10 +601,15 @@
             const sigText = document.getElementById('signal-text'), betAmtText = document.getElementById('bet-amount-text');
             const dnaContainer = document.getElementById('dna-container'), dnaDots = document.getElementById('dna-dots');
             
-            // 🟢 อัปเดตป้าย Top 10 Genesis
+            // 🟢 อัปเดตป้าย Top 10
             const goldenAlert = document.getElementById('golden-shoe-alert');
             if (state.genesis_status === 'TOP') { goldenAlert.classList.remove('hidden'); } 
             else { goldenAlert.classList.add('hidden'); }
+
+            // 🔴 อัปเดตป้าย Bottom 10 (Danger)
+            const dangerAlert = document.getElementById('danger-shoe-alert');
+            if (state.genesis_status === 'BOTTOM') { dangerAlert.classList.remove('hidden'); } 
+            else { dangerAlert.classList.add('hidden'); }
 
             sigText.innerText = state.status_msg; sigText.className = `text-2xl sm:text-3xl font-bold mt-1 ${state.status_color}`;
             
@@ -631,14 +650,12 @@
             document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
             document.getElementById('round-text').innerText = `ตาที่ ${state.history_all.length}`;
 
-            // 🚨 โชว์กล่อง Toxic Recorder
             const toxicZone = document.getElementById('toxic-recorder-zone');
             if (state.show_toxic_recorder) {
                 toxicZone.classList.remove('hidden');
                 document.getElementById('toxic-dna-input').value = state.toxic_dna_captured;
             } else { toxicZone.classList.add('hidden'); }
 
-            // 📊 โชว์กล่อง Genesis Report
             const genesisZone = document.getElementById('genesis-report-zone');
             if (last_genesis_report) {
                 genesisZone.classList.remove('hidden');
@@ -660,8 +677,7 @@
             });
             
             let sysInfo = "✅ ระบบพร้อมรบ";
-            if(state.genesis_status === 'BOTTOM') sysInfo = "🛑 บัญชีดำ: ห้ามเข้าเล่น!";
-            else if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำทำงาน!";
+            if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำทำงาน!";
             else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!";
             else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3 ทำงาน"; 
             else if(state.is_virtual_mode) sysInfo = "👻 แทงลมเพื่อเช็คความแม่นยำ";
@@ -669,7 +685,7 @@
             else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกรอัจฉริยะ";
             else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่สมมาตร";
             else if(state.dragon_wait) sysInfo = "🐉 ระบบป้องกันมังกร";
-            if(!state.active_shoe && state.genesis_status !== 'BOTTOM') sysInfo = "🛑 จบขอนแล้ว";
+            if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
             document.getElementById('system-status').innerText = sysInfo;
         }
 
