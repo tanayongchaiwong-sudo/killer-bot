@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
-    <title>Killer Baccarat OS - V.16.6.20 Phoenix</title>
+    <title>Killer Baccarat OS - Phoenix Perfected</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -36,7 +36,7 @@
     <div class="flex justify-between items-center shrink-0">
         <div class="flex flex-col">
             <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 leading-tight">KILLER OS</h1>
-            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.20 Phoenix Edition</span>
+            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.27 Phoenix Custom</span>
         </div>
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
@@ -73,14 +73,21 @@
                 </div>
             </div>
 
-            <div class="bg-slate-800/60 p-5 md:p-6 rounded-3xl border border-slate-700/50 shadow-md">
+            <div class="bg-slate-800/60 p-5 md:p-6 rounded-3xl border border-slate-700/50 shadow-md relative">
+                <p class="absolute top-4 right-5 text-[9px] md:text-[10px] text-slate-500 font-mono hidden md:block">HOTKEYS: [P]=Player, [T]=Tie, [B]=Banker, [Z]=Undo</p>
                 <p class="text-xs md:text-sm text-gray-400 mb-4 font-medium flex items-center">
                     บันทึกผลไพ่ <span id="round-text" class="text-white font-bold ml-2 bg-indigo-600/30 px-3 py-1 rounded-full border border-indigo-500/30">ตาที่ 0</span>
                 </p>
                 <div class="grid grid-cols-3 gap-3 md:gap-5">
-                    <button onclick="recordResult('P')" class="btn-press bg-blue-600 active:bg-blue-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(37,99,235,0.4)] transition-all">P</button>
-                    <button onclick="recordResult('T')" class="btn-press bg-green-600 active:bg-green-700 text-white h-20 md:h-24 rounded-2xl text-2xl font-bold shadow-[0_5px_15px_rgba(34,197,94,0.4)] transition-all">TIE</button>
-                    <button onclick="recordResult('B')" class="btn-press bg-red-600 active:bg-red-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(239,68,68,0.4)] transition-all">B</button>
+                    <button onclick="recordResult('P')" class="btn-press bg-blue-600 active:bg-blue-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(37,99,235,0.4)] transition-all flex flex-col items-center justify-center">
+                        <span class="leading-none">P</span><span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: P</span>
+                    </button>
+                    <button onclick="recordResult('T')" class="btn-press bg-green-600 active:bg-green-700 text-white h-20 md:h-24 rounded-2xl text-2xl font-bold shadow-[0_5px_15px_rgba(34,197,94,0.4)] transition-all flex flex-col items-center justify-center">
+                        <span class="leading-none">TIE</span><span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: T</span>
+                    </button>
+                    <button onclick="recordResult('B')" class="btn-press bg-red-600 active:bg-red-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(239,68,68,0.4)] transition-all flex flex-col items-center justify-center">
+                        <span class="leading-none">B</span><span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: B</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -106,7 +113,9 @@
             <div class="flex flex-wrap gap-2 shrink-0">
                 <button onclick="undo()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-sm font-semibold transition-colors">↩️ เลิกทำ</button>
                 <button onclick="newShoe()" class="flex-[1.5] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-sm font-bold transition-colors">🔄 เริ่มขอนใหม่</button>
-                <button onclick="exportCSV()" class="px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md">📥 CSV <span id="db-count" class="text-[10px] bg-white/20 px-1 rounded ml-1">0</span></button>
+                <button onclick="triggerSync()" id="sync-btn" class="px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md">
+                    ☁️ <span id="db-count" class="bg-white/20 px-1 rounded ml-1">...</span>
+                </button>
                 <button onclick="hardResetData()" class="px-3 bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-400 text-xs border border-gray-600 transition-colors">🧹 ล้าง</button>
             </div>
 
@@ -138,6 +147,9 @@
 </div>
 
 <script>
+    // ==========================================
+    // 🔑 ข้อมูล SUPABASE ของคุณ
+    // ==========================================
     const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
@@ -154,19 +166,33 @@
     const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
     const TOXIC_4 = "BBBBBPPBBBBB"; const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
-    let round_database = []; 
-    let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
-    const STORAGE_KEY = 'killerBaccaratData_V16_Rows';
+    // เพิ่มตัวแปร sync_queue และยึดการทำงานแบบ V.20
+    let shoe_database = []; 
+    let sync_queue = []; 
+    let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let last_genesis_report = null; let state, initial_shoe_state;
+    const STORAGE_KEY = 'killerBaccaratData_V16_PhoenixStable';
 
-    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, round_database })); }
+    // 💥 ระบบคีย์บอร์ดลัด (P, B, T, Z)
+    document.addEventListener('keydown', function(event) {
+        const key = event.key.toLowerCase();
+        if (key === 'p') { vibrate(50); recordResult('P'); }
+        else if (key === 'b') { vibrate(50); recordResult('B'); }
+        else if (key === 't') { vibrate(50); recordResult('T'); }
+        else if (key === 'z') { vibrate(50); undo(); }
+    });
+
+    function saveToStorage() { 
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, last_genesis_report, state, initial_shoe_state, shoe_database, sync_queue })); 
+    }
     
     function loadFromStorage() {
         const data = localStorage.getItem(STORAGE_KEY);
         if (data) {
             try {
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
-                current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
-                round_database = parsed.round_database || [];
+                current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; last_genesis_report = parsed.last_genesis_report || null;
+                shoe_database = parsed.shoe_database || []; 
+                sync_queue = parsed.sync_queue || [];
                 state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
             } catch(e) { return false; }
         } return false;
@@ -174,102 +200,103 @@
 
     function hardResetData() { 
         vibrate(50); 
-        if(confirm("⚠️ ล้างความจำกระดานทั้งหมดใช่ไหม?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload(); } 
+        if(confirm("⚠️ ล้างความจำระบบทั้งหมด (รวมถึงคิวที่รอ Sync ด้วย)! ยืนยันหรือไม่?")) { 
+            localStorage.removeItem(STORAGE_KEY); window.location.reload(); 
+        } 
     }
 
-    function generateRoundLogs(shoe_id) {
-        let logs = [];
-        let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
-        let now = new Date();
-        let pad = (n) => n.toString().padStart(2, '0');
+    // 💥 ฟังก์ชันส่งข้อมูลขึ้น Supabase (รองรับ Offline)
+    async function triggerSync() {
+        let countEl = document.getElementById('db-count');
+        let btnEl = document.getElementById('sync-btn');
+        
+        if (sync_queue.length === 0) {
+            countEl.innerText = "OK";
+            btnEl.className = "px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md";
+            return;
+        }
+
+        countEl.innerText = "Syncing...";
+        if (!SUPABASE_URL.includes("supabase.co")) return;
+
+        try {
+            // ส่งข้อมูลจาก sync_queue
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/baccarat_round_logs`, {
+                method: 'POST',
+                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                body: JSON.stringify(sync_queue) 
+            });
+            
+            if (!response.ok) throw new Error(await response.text());
+            else {
+                console.log(`☁️ Synced ${sync_queue.length} rounds successfully!`);
+                sync_queue = []; // ส่งผ่านแล้ว เคลียร์คิวทิ้ง
+                saveToStorage(); 
+                countEl.innerText = "OK";
+                btnEl.className = "px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md";
+            }
+        } catch (error) {
+            console.error("Sync Error:", error);
+            countEl.innerText = `ค้าง ${sync_queue.length}`;
+            btnEl.className = "px-4 bg-red-600 hover:bg-red-500 py-3 rounded-xl text-white font-bold text-xs border border-red-500 transition-colors shadow-md";
+        }
+    }
+
+    // 💥 ฟังก์ชันสร้างข้อมูลแบบรายตา
+    function generateRoundLogs(shoe_id, outcome_category) {
+        let logs = []; let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
+        let now = new Date(); let pad = (n) => n.toString().padStart(2, '0');
         let timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
         for (let i = 0; i < global_history_log.length; i++) {
-            let outcome = global_history_log[i];
-            let pre_state = JSON.parse(JSON.stringify(temp_state)); 
+            let outcome = global_history_log[i]; let pre_state = JSON.parse(JSON.stringify(temp_state)); 
             
             let signal = pre_state.current_signal || 'WAIT';
-            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) {
-                signal = 'WAIT';
-            }
+            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) signal = 'WAIT';
             if (pre_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
             
             let bet = pre_state.bet_amount || 0;
-            
             processOutcomeOnState(temp_state, outcome, mode); 
-            
             let pnl_diff = temp_state.global_pnl - pre_state.global_pnl;
             
             logs.push({
-                shoe_id: shoe_id,
-                round_no: i + 1,
-                actual: outcome,
-                signal: signal,
-                bet_amount: bet,
-                pnl: pnl_diff,
-                net_profit: temp_state.global_pnl,
-                recorded_time: timeStr
+                shoe_id: shoe_id, round_no: i + 1, actual: outcome, signal: signal, bet_amount: bet, pnl: pnl_diff,
+                net_profit: temp_state.global_pnl, recorded_time: timeStr, outcome_category: outcome_category
             });
         }
         return logs;
     }
 
-    async function pushToSupabase(logsArray) {
-        if (!SUPABASE_URL.includes("supabase.co") || logsArray.length === 0) return;
-
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/baccarat_round_logs`, {
-                method: 'POST',
-                headers: {
-                    'apikey': SUPABASE_ANON_KEY,
-                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                    'Content-Type': 'application/json',
-                    'Prefer': 'return=minimal'
-                },
-                body: JSON.stringify(logsArray) 
-            });
-            
-            if (!response.ok) {
-                console.error("Supabase Error:", await response.text());
-            } else {
-                console.log(`☁️ Synced ${logsArray.length} rounds to Supabase!`);
-            }
-        } catch (error) {
-            console.error("Network Error:", error);
-        }
-    }
-
     function exportCSV() {
+        // ใช้ฟังก์ชัน exportCSV แบบเดิมของ V.20 
         vibrate(30);
-        if (round_database.length === 0) {
-            alert("ยังไม่มีข้อมูลให้ดาวน์โหลดครับ โปรดเล่นให้จบขอนก่อน");
-            return;
+        if (shoe_database.length === 0 && sync_queue.length === 0) {
+            alert("ยังไม่มีข้อมูลขอนไพ่ให้ดาวน์โหลดครับ"); return;
         }
         
-        let csvRows = [];
-        csvRows.push(["Shoe_ID", "Round_No", "Actual", "Signal", "Bet_Amount", "PnL", "Net_Profit", "Recorded_Time"].join(","));
+        let csvContent = "\uFEFF"; 
+        let rows = [["Shoe_ID", "Round_No", "Actual", "Signal", "Bet_Amount", "PnL", "Net_Profit", "Recorded_Time", "Outcome"]];
         
-        round_database.forEach(item => {
-            csvRows.push([item.shoe_id, item.round_no, item.actual, item.signal, item.bet_amount, item.pnl, item.net_profit, item.recorded_time].join(","));
+        // ส่งออกข้อมูลรายตาที่สะสมไว้ (เอาจากคิวก็ได้)
+        let dataToExport = sync_queue.length > 0 ? sync_queue : [];
+        dataToExport.forEach(item => {
+            rows.push([item.shoe_id, item.round_no, item.actual, item.signal, item.bet_amount, item.pnl, item.net_profit, item.recorded_time, item.outcome_category]);
         });
 
-        let finalCsvContent = "\uFEFF" + csvRows.join("\r\n");
-        let blob = new Blob([finalCsvContent], { type: 'text/csv;charset=utf-8;' });
-        let url = URL.createObjectURL(blob);
-        let link = document.createElement("a");
-        link.setAttribute("href", url);
-        link.setAttribute("download", `Killer_Baccarat_Rounds_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        csvContent += rows.map(e => e.join(",")).join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob); const link = document.createElement("a");
+        link.setAttribute("href", url); link.setAttribute("download", `Killer_Baccarat_Rounds_${new Date().getTime()}.csv`);
+        document.body.appendChild(link); link.click(); document.body.removeChild(link);
     }
 
     function getInitialState(keepCarryover = false) {
         let base_tiers = JSON.parse(JSON.stringify(CONFIG[mode].tiers)); let final_tiers = base_tiers;
-        let initial_global_pnl = 0, initial_current_tier = 0, initial_loss_streak = 0, initial_global_losses = 0;
+        let initial_global_pnl = 0, initial_current_tier = 0, initial_loss_streak = 0, initial_global_losses = 0, initial_show_toxic = false, initial_toxic_dna = "";
         if (keepCarryover && typeof state !== 'undefined' && state) {
             initial_global_pnl = state.global_pnl; initial_current_tier = state.current_tier; initial_loss_streak = state.loss_streak;
-            initial_global_losses = state.global_consecutive_losses; final_tiers = JSON.parse(JSON.stringify(state.active_tiers)); 
+            initial_global_losses = state.global_consecutive_losses; initial_show_toxic = state.show_toxic_recorder; initial_toxic_dna = state.toxic_dna_captured;
+            final_tiers = JSON.parse(JSON.stringify(state.active_tiers)); 
             if (initial_current_tier === 1) {
                 let remaining_bullets = final_tiers[1].length - initial_loss_streak;
                 while (remaining_bullets < 3) { let last_bet = final_tiers[1][final_tiers[1].length - 1]; final_tiers[1].push(last_bet * 2); remaining_bullets = final_tiers[1].length - initial_loss_streak; }
@@ -279,7 +306,8 @@
             history_all: [], history: [], pnl: 0, global_pnl: initial_global_pnl, current_tier: initial_current_tier, loss_streak: initial_loss_streak, active_tiers: final_tiers, 
             current_signal: null, current_dna: "---", bet_amount: null, active_shoe: true, status_msg: "ดูลาดเลา...", status_color: "text-gray-300", 
             dragon_wait: false, dragon_color: null, symmetry_wait: false, toxic_wait: false, toxic_msg: "", regime_display: "Balanced", last_bet_won: false, is_riding_dragon: false, riding_color: null,
-            is_virtual_mode: false, is_trailing: false, global_consecutive_losses: initial_global_losses, is_blowout: false, genesis_checked: false, genesis_status: null
+            is_virtual_mode: false, is_trailing: false, global_consecutive_losses: initial_global_losses, is_blowout: false, genesis_checked: false, genesis_status: null,
+            show_toxic_recorder: initial_show_toxic, toxic_dna_captured: initial_toxic_dna, needs_toxic_capture: false
         };
     }
 
@@ -335,7 +363,7 @@
                     s.last_bet_won = is_win; 
                     if (is_win) { s.pnl += amt; s.global_pnl += amt; s.loss_streak = 0; s.current_tier = 0; s.global_consecutive_losses = 0; if (s.pnl >= cfg.tp) s.is_trailing = true; } 
                     else {
-                        s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; 
+                        s.pnl -= amt; s.global_pnl -= amt; s.loss_streak++; s.global_consecutive_losses++; if (s.global_consecutive_losses === 5) s.needs_toxic_capture = true; 
                         if (s.is_trailing) { s.active_shoe = false; s.status_msg = `🏆 ล็อกกำไร`; s.status_color = "text-green-400"; s.bet_amount = null; s.current_dna = "---"; } 
                         else {
                             if (s.is_riding_dragon) s.is_riding_dragon = false;
@@ -344,7 +372,7 @@
                             let max_losses = s.active_tiers[s.current_tier].length;
                             if (s.loss_streak >= max_losses) {
                                 s.loss_streak = 0; if (s.current_tier < s.active_tiers.length - 1) { s.current_tier++; } 
-                                else { s.current_tier = 0; s.active_shoe = false; s.is_blowout = true; s.status_msg = `💥 พอร์ตแตก ย้ายขอน!`; s.status_color = "text-red-500"; s.bet_amount = null; s.current_dna = "---"; }
+                                else { s.current_tier = 0; s.active_shoe = false; s.is_blowout = true; s.status_msg = `💥 พอร์ตแตก ย้ายขอน!`; s.status_color = "text-red-500"; s.bet_amount = null; s.current_dna = "---"; s.needs_toxic_capture = true; }
                             }
                         }
                     }
@@ -359,6 +387,8 @@
             if (GENESIS_TOP_10.includes(gen6)) s.genesis_status = 'TOP'; else if (GENESIS_BOTTOM_10.includes(gen6)) s.genesis_status = 'BOTTOM';
         }
 
+        if (s.needs_toxic_capture) { s.toxic_dna_captured = s.history.slice(-18).join(''); s.show_toxic_recorder = true; s.needs_toxic_capture = false; }
+
         if (s.active_shoe) {
             if (s.dragon_wait) { if (outcome !== 'T' && outcome !== s.dragon_color) s.dragon_wait = false; }
             let hist = s.history, hist_str = hist.join(''), len = hist.length, strks = getStreakLengths(hist); s.toxic_wait = false; s.toxic_msg = "";
@@ -369,6 +399,7 @@
                 if (hist_str.length >= 8 && TOXIC_4.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 8 && TOXIC_5.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 12 && TOXIC_6.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
+                if (hist_str.length >= 12 && TOXIC_7.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             }
             if (strks.length >= 3) { let last3 = strks.slice(-3); if (last3.every(st => st === 2 || st === 3)) s.symmetry_wait = true; if (strks[strks.length - 1] >= 4 || last3.every(st => st === 1)) s.symmetry_wait = false; }
             if (s.toxic_wait || s.symmetry_wait || s.dragon_wait) { s.is_virtual_mode = true; }
@@ -418,8 +449,20 @@
     function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
     function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
     
+    // 💥 V.27: สร้างข้อมูลแบบรายตา แล้วยิงขึ้นคลาวด์
     function newShoe() {
         vibrate(50); let keepCarryover = false;
+        
+        let outcome_category = "3_LOSS_OR_STUCK";
+        if (current_shoe_genesis_dna.length >= 6) {
+            let tp_limit = CONFIG[mode].tp;
+            if (state.is_blowout) outcome_category = "4_BLOWOUT"; 
+            else if (state.pnl >= tp_limit) outcome_category = "1_TP_ACHIEVED"; 
+            else if (state.pnl > 0) outcome_category = "2_PROFIT"; 
+            else if (state.genesis_status === 'BOTTOM' && state.pnl === 0) outcome_category = "0_NO_TRADE";
+            
+            last_genesis_report = { dna: current_shoe_genesis_dna, outcome: outcome_category, pnl: state.pnl };
+        }
 
         if (state.loss_streak > 0 || state.current_tier > 0) {
             if (state.global_pnl < 0) { keepCarryover = confirm("ติดสเตปทบเงิน! ต้องการ 'ยกยอดข้ามขอน' หรือไม่?"); } 
@@ -427,31 +470,30 @@
         } else { if (!confirm("ล้างกระดานและเริ่มขอนใหม่? (ข้อมูลจะถูก Sync ขึ้น Cloud)")) return; }
         
         if (global_history_log.length > 0) {
-            let now = new Date();
-            let pad = (n) => n.toString().padStart(2, '0');
+            let now = new Date(); let pad = (n) => n.toString().padStart(2, '0');
             let dateStr = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
             let timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             let shoe_id = `SHOE_${dateStr}_${timeStr}`;
             
-            let logsArray = generateRoundLogs(shoe_id);
-            
-            round_database = round_database.concat(logsArray);
-            pushToSupabase(logsArray); 
+            let logsArray = generateRoundLogs(shoe_id, "NONE", outcome_category); // ใช้ระบบจำลองอดีตแบบ V.20 
+            sync_queue = sync_queue.concat(logsArray);
+            triggerSync(); 
         }
 
         state = getInitialState(keepCarryover); initial_shoe_state = JSON.parse(JSON.stringify(state)); global_history_log = []; current_shoe_genesis_dna = ""; saveToStorage(); renderUI();
     }
+
+    function hideToxic() { state.show_toxic_recorder = false; renderUI(); }
+    function hideGenesis() { last_genesis_report = null; renderUI(); }
+    function copyToxicDNA() { let input = document.getElementById('toxic-dna-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
+    function copyGenesisData() { let input = document.getElementById('genesis-data-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
 
     function renderUI() {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         
-        // 💥 จุดที่ 2: เปลี่ยนชื่อบนป้ายสถานะเป็น Phoenix V.3
         document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🐦‍🔥 Phoenix V.3";
-        document.getElementById('mode-badge').className = mode === 'WHALE_V1' ? "text-[10px] md:text-xs font-bold text-yellow-400 px-3 py-1.5 bg-yellow-900/30 rounded-lg" : 
-                         mode === 'WHALE_V2' ? "text-[10px] md:text-xs font-bold text-fuchsia-400 px-3 py-1.5 bg-fuchsia-900/30 rounded-lg" : 
-                         "text-[10px] md:text-xs font-bold text-red-400 px-3 py-1.5 bg-red-900/30 rounded-lg";
 
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') goldenAlert.classList.remove('hidden'); else goldenAlert.classList.add('hidden');
@@ -493,7 +535,14 @@
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
         
-        document.getElementById('db-count').innerText = round_database.length;
+        const toxicZone = document.getElementById('toxic-recorder-zone');
+        if (state.show_toxic_recorder) { toxicZone.classList.remove('hidden'); document.getElementById('toxic-dna-input').value = state.toxic_dna_captured; } else { toxicZone.classList.add('hidden'); }
+        const genesisZone = document.getElementById('genesis-report-zone');
+        if (last_genesis_report) {
+            genesisZone.classList.remove('hidden');
+            let catText = last_genesis_report.outcome === "1_TP_ACHIEVED" ? `🏆 TP (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "2_PROFIT" ? `🟢 กำไร (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "3_LOSS_OR_STUCK" ? `🔴 ติดลบ (${last_genesis_report.pnl})` : last_genesis_report.outcome === "4_BLOWOUT" ? `💥 แตก (${last_genesis_report.pnl})` : `🛡️ ไม่เล่น (${last_genesis_report.pnl})`;
+            document.getElementById('genesis-outcome-text').innerText = catText; document.getElementById('genesis-data-input').value = `[${last_genesis_report.dna}] = ${last_genesis_report.outcome}`;
+        } else { genesisZone.classList.add('hidden'); }
 
         const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
         state.history_all.forEach((out, index) => {
@@ -505,13 +554,23 @@
         const scrollZone = histContainer.parentElement; scrollZone.scrollLeft = scrollZone.scrollWidth;
         
         let sysInfo = "✅ พร้อมรบ";
-        if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
+        if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
         if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
         document.getElementById('system-status').innerText = sysInfo;
+        
+        // 💥 สถานะปุ่ม Sync V.20 แบบเสถียร
+        let syncBtn = document.getElementById('sync-btn');
+        let countEl = document.getElementById('db-count');
+        if(sync_queue.length > 0) {
+            countEl.innerText = `ค้าง ${sync_queue.length}`;
+            syncBtn.className = "px-4 bg-red-600 hover:bg-red-500 py-3 rounded-xl text-white font-bold text-xs border border-red-500 transition-colors shadow-md";
+        } else {
+            countEl.innerText = "OK";
+            syncBtn.className = "px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md";
+        }
     }
     
     loadFromStorage();
     renderUI();
+    if(sync_queue.length > 0) triggerSync(); // ลองยิงถ้ามีของค้าง
 </script>
-</body>
-</html>
