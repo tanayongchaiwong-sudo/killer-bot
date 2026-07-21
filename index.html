@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
-    <title>Killer Baccarat OS - V.16.6.18 Cloud Active</title>
+    <title>Killer Baccarat OS - V.16.6.20 Phoenix</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -36,12 +36,12 @@
     <div class="flex justify-between items-center shrink-0">
         <div class="flex flex-col">
             <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 leading-tight">KILLER OS</h1>
-            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.18 Auto-Connect</span>
+            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.20 Phoenix Edition</span>
         </div>
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
             <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐉 V.2</button>
-            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🦢 V.3</button>
+            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🦅 V.3</button>
         </div>
     </div>
 
@@ -58,7 +58,7 @@
         <div class="lg:col-span-7 flex flex-col gap-6">
             <div id="commander-zone" class="w-full rounded-3xl p-4 md:p-6 border-2 text-center shadow-2xl shrink-0 transition-colors duration-300 bg-slate-800/80 fixed-commander-mobile">
                 <div class="flex justify-between items-start w-full">
-                    <span id="mode-badge" class="text-xs md:text-sm font-bold px-3 py-1 rounded-lg">Whale V.3</span>
+                    <span id="mode-badge" class="text-xs md:text-sm font-bold px-3 py-1 rounded-lg">Phoenix V.3</span>
                     <div class="flex gap-2 items-center">
                         <div id="dna-container" class="flex items-center hidden bg-black/30 px-2 py-0.5 rounded-full border border-white/10">
                             <span class="text-[9px] text-gray-400 mr-1">DNA:</span>
@@ -106,10 +106,27 @@
             <div class="flex flex-wrap gap-2 shrink-0">
                 <button onclick="undo()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-sm font-semibold transition-colors">↩️ เลิกทำ</button>
                 <button onclick="newShoe()" class="flex-[1.5] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-sm font-bold transition-colors">🔄 เริ่มขอนใหม่</button>
-                <div class="px-3 bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[11px] border border-emerald-800 flex items-center justify-center shadow-inner">
-                    ☁️ Cloud <span id="db-count" class="text-[10px] bg-emerald-700/50 text-white px-1.5 py-0.5 rounded ml-1">...</span>
-                </div>
+                <button onclick="exportCSV()" class="px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md">📥 CSV <span id="db-count" class="text-[10px] bg-white/20 px-1 rounded ml-1">0</span></button>
                 <button onclick="hardResetData()" class="px-3 bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-400 text-xs border border-gray-600 transition-colors">🧹 ล้าง</button>
+            </div>
+
+            <div id="data-recorders-zone" class="w-full shrink-0 flex flex-col gap-2 empty:hidden">
+                <div id="toxic-recorder-zone" class="bg-slate-900 p-3 rounded-xl border border-red-500/50 hidden flex items-center justify-between">
+                    <p class="text-xs font-bold text-red-500 mr-2">🚨 บัญชีดำ!</p>
+                    <input type="text" id="toxic-dna-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-red-400 font-mono text-[10px] md:text-xs text-center" value="">
+                    <button onclick="copyToxicDNA()" class="ml-2 bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
+                    <button onclick="hideToxic()" class="ml-1 text-gray-500 text-xs px-2">X</button>
+                </div>
+                <div id="genesis-report-zone" class="bg-slate-900 p-3 rounded-xl border border-indigo-500/50 hidden flex flex-col gap-2">
+                    <div class="flex justify-between items-center">
+                        <p id="genesis-outcome-text" class="text-xs font-bold text-indigo-300 truncate"></p>
+                        <button onclick="hideGenesis()" class="text-gray-500 text-xs px-2">X</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="genesis-data-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-indigo-300 font-mono text-[10px] md:text-xs text-center" value="">
+                        <button onclick="copyGenesisData()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
+                    </div>
+                </div>
             </div>
 
             <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 shadow-inner overflow-x-auto overflow-y-hidden no-scrollbar flex-1 min-h-[200px]">
@@ -121,9 +138,6 @@
 </div>
 
 <script>
-    // ==========================================
-    // 🔑 URL และ KEY ของคุณ (แก้ไขตัด /rest/v1/ ออกให้แล้ว)
-    // ==========================================
     const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
@@ -140,18 +154,19 @@
     const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
     const TOXIC_4 = "BBBBBPPBBBBB"; const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
-    let shoe_database = []; 
+    let round_database = []; 
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
-    const STORAGE_KEY = 'killerBaccaratData_V16_CloudSync';
+    const STORAGE_KEY = 'killerBaccaratData_V16_Rows';
 
-    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, shoe_database })); }
+    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, round_database })); }
+    
     function loadFromStorage() {
         const data = localStorage.getItem(STORAGE_KEY);
         if (data) {
             try {
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
                 current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
-                shoe_database = parsed.shoe_database || [];
+                round_database = parsed.round_database || [];
                 state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
             } catch(e) { return false; }
         } return false;
@@ -162,13 +177,48 @@
         if(confirm("⚠️ ล้างความจำกระดานทั้งหมดใช่ไหม?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload(); } 
     }
 
-    // ☁️ ยิงข้อมูลขึ้น Supabase
-    async function pushToSupabase(record) {
-        let countEl = document.getElementById('db-count');
-        countEl.innerText = "⏳ Sync";
+    function generateRoundLogs(shoe_id) {
+        let logs = [];
+        let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
+        let now = new Date();
+        let pad = (n) => n.toString().padStart(2, '0');
+        let timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+        for (let i = 0; i < global_history_log.length; i++) {
+            let outcome = global_history_log[i];
+            let pre_state = JSON.parse(JSON.stringify(temp_state)); 
+            
+            let signal = pre_state.current_signal || 'WAIT';
+            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) {
+                signal = 'WAIT';
+            }
+            if (pre_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
+            
+            let bet = pre_state.bet_amount || 0;
+            
+            processOutcomeOnState(temp_state, outcome, mode); 
+            
+            let pnl_diff = temp_state.global_pnl - pre_state.global_pnl;
+            
+            logs.push({
+                shoe_id: shoe_id,
+                round_no: i + 1,
+                actual: outcome,
+                signal: signal,
+                bet_amount: bet,
+                pnl: pnl_diff,
+                net_profit: temp_state.global_pnl,
+                recorded_time: timeStr
+            });
+        }
+        return logs;
+    }
+
+    async function pushToSupabase(logsArray) {
+        if (!SUPABASE_URL.includes("supabase.co") || logsArray.length === 0) return;
 
         try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/killer_baccarat_logs`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/baccarat_round_logs`, {
                 method: 'POST',
                 headers: {
                     'apikey': SUPABASE_ANON_KEY,
@@ -176,29 +226,42 @@
                     'Content-Type': 'application/json',
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify({
-                    shoe_no: record.shoe_no,
-                    shoe_id: record.shoe_id,
-                    total_rounds: record.rounds,
-                    pattern_pbt: record.pattern,
-                    pnl: record.pnl,
-                    outcome: record.outcome
-                })
+                body: JSON.stringify(logsArray) 
             });
             
             if (!response.ok) {
-                let errText = await response.text();
-                console.error("Supabase Error:", errText);
-                alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + errText);
-                countEl.innerText = "❌";
+                console.error("Supabase Error:", await response.text());
             } else {
-                console.log("☁️ Data Synced to Supabase Successfully!");
-                countEl.innerText = "✅ OK";
+                console.log(`☁️ Synced ${logsArray.length} rounds to Supabase!`);
             }
         } catch (error) {
-            console.error("Network Error Syncing to Supabase:", error);
-            countEl.innerText = "📡 Err";
+            console.error("Network Error:", error);
         }
+    }
+
+    function exportCSV() {
+        vibrate(30);
+        if (round_database.length === 0) {
+            alert("ยังไม่มีข้อมูลให้ดาวน์โหลดครับ โปรดเล่นให้จบขอนก่อน");
+            return;
+        }
+        
+        let csvRows = [];
+        csvRows.push(["Shoe_ID", "Round_No", "Actual", "Signal", "Bet_Amount", "PnL", "Net_Profit", "Recorded_Time"].join(","));
+        
+        round_database.forEach(item => {
+            csvRows.push([item.shoe_id, item.round_no, item.actual, item.signal, item.bet_amount, item.pnl, item.net_profit, item.recorded_time].join(","));
+        });
+
+        let finalCsvContent = "\uFEFF" + csvRows.join("\r\n");
+        let blob = new Blob([finalCsvContent], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(blob);
+        let link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `Killer_Baccarat_Rounds_${new Date().toISOString().slice(0,10).replace(/-/g,"")}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     function getInitialState(keepCarryover = false) {
@@ -355,18 +418,8 @@
     function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
     function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
     
-    // 💥 เมื่อกดจบขอน -> ส่งเข้า Supabase
     function newShoe() {
         vibrate(50); let keepCarryover = false;
-        
-        let outcome_category = "3_LOSS_OR_STUCK";
-        if (current_shoe_genesis_dna.length >= 6) {
-            let tp_limit = CONFIG[mode].tp;
-            if (state.is_blowout) outcome_category = "4_BLOWOUT"; 
-            else if (state.pnl >= tp_limit) outcome_category = "1_TP_ACHIEVED"; 
-            else if (state.pnl > 0) outcome_category = "2_PROFIT"; 
-            else if (state.genesis_status === 'BOTTOM' && state.pnl === 0) outcome_category = "0_NO_TRADE";
-        }
 
         if (state.loss_streak > 0 || state.current_tier > 0) {
             if (state.global_pnl < 0) { keepCarryover = confirm("ติดสเตปทบเงิน! ต้องการ 'ยกยอดข้ามขอน' หรือไม่?"); } 
@@ -378,17 +431,12 @@
             let pad = (n) => n.toString().padStart(2, '0');
             let dateStr = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}`;
             let timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+            let shoe_id = `SHOE_${dateStr}_${timeStr}`;
             
-            let record = {
-                shoe_no: shoe_database.length + 1,
-                shoe_id: `SHOE_${dateStr}_${timeStr}`,
-                rounds: global_history_log.length,
-                pattern: global_history_log.join(""),
-                pnl: state.pnl,
-                outcome: outcome_category
-            };
-            shoe_database.push(record);
-            pushToSupabase(record); 
+            let logsArray = generateRoundLogs(shoe_id);
+            
+            round_database = round_database.concat(logsArray);
+            pushToSupabase(logsArray); 
         }
 
         state = getInitialState(keepCarryover); initial_shoe_state = JSON.parse(JSON.stringify(state)); global_history_log = []; current_shoe_genesis_dna = ""; saveToStorage(); renderUI();
@@ -399,8 +447,12 @@
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         
-        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🦢 Whale V.3";
-        
+        // 💥 จุดที่ 2: เปลี่ยนชื่อบนป้ายสถานะเป็น Phoenix V.3
+        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🦅 Phoenix V.3";
+        document.getElementById('mode-badge').className = mode === 'WHALE_V1' ? "text-[10px] md:text-xs font-bold text-yellow-400 px-3 py-1.5 bg-yellow-900/30 rounded-lg" : 
+                         mode === 'WHALE_V2' ? "text-[10px] md:text-xs font-bold text-fuchsia-400 px-3 py-1.5 bg-fuchsia-900/30 rounded-lg" : 
+                         "text-[10px] md:text-xs font-bold text-red-400 px-3 py-1.5 bg-red-900/30 rounded-lg";
+
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') goldenAlert.classList.remove('hidden'); else goldenAlert.classList.add('hidden');
         if (state.genesis_status === 'BOTTOM') dangerAlert.classList.remove('hidden'); else dangerAlert.classList.add('hidden');
@@ -441,7 +493,7 @@
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
         
-        document.getElementById('db-count').innerText = shoe_database.length;
+        document.getElementById('db-count').innerText = round_database.length;
 
         const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
         state.history_all.forEach((out, index) => {
@@ -453,7 +505,7 @@
         const scrollZone = histContainer.parentElement; scrollZone.scrollLeft = scrollZone.scrollWidth;
         
         let sysInfo = "✅ พร้อมรบ";
-        if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.toxic_wait) sysInfo = "⚠️ บัญชีดำ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
+        if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
         if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
         document.getElementById('system-status').innerText = sysInfo;
     }
@@ -461,3 +513,5 @@
     loadFromStorage();
     renderUI();
 </script>
+</body>
+</html>
