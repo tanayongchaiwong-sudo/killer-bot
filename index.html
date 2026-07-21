@@ -55,7 +55,7 @@
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
             <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐉 V.2</button>
-            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐦‍🔥 V.3</button>
+            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐦 V.3</button>
         </div>
     </div>
 
@@ -196,8 +196,9 @@
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
     let keepCarryoverGlobal = false;
     
-    // ใช้ชื่อเดิมข้อมูลจะได้ไม่หาย
-    const STORAGE_KEY = 'killerBaccaratData_V16_Keys';
+    // 💥 เปลี่ยนชื่อ Storage เพื่อล้าง Memory Leak อันเก่าที่ทำเครื่องค้าง
+    const STORAGE_KEY = 'killerBaccaratData_V16_SuperSmooth';
+    const DB_KEY = 'killerBaccaratDB_Offline'; // แยก Data ไปเก็บอีกก้อน ไม่ให้หนักแอป
 
     document.addEventListener('keydown', function(event) {
         if (!document.getElementById('tag-modal').classList.contains('hidden')) return;
@@ -208,24 +209,27 @@
         else if (key === 'z') { vibrate(50); undo(); }
     });
 
-    // 💥 OPTIMIZATION 1: แยกเทรดการบันทึกข้อมูลเพื่อลดอาการจอกระตุก (Debounce Storage)
     let saveTimeout;
     function saveToStorage() { 
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, round_database, sync_queue })); 
-        }, 50); // ดีเลย์ 50ms ให้ภาพหน้าจออัปเดตให้เสร็จก่อนค่อยเซฟ
+            // เก็บสถานะที่จำเป้นต้องใช้โชว์เท่านั้น
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, sync_queue })); 
+            localStorage.setItem(DB_KEY, JSON.stringify(round_database));
+        }, 100); 
     }
     
     function loadFromStorage() {
         const data = localStorage.getItem(STORAGE_KEY);
+        const dbData = localStorage.getItem(DB_KEY);
         if (data) {
             try {
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
                 current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
-                round_database = parsed.round_database || [];
                 sync_queue = parsed.sync_queue || [];
-                state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
+                state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; 
+                if (dbData) round_database = JSON.parse(dbData) || [];
+                return true;
             } catch(e) { return false; }
         } return false;
     }
@@ -348,7 +352,9 @@
     function executeShoeReset(type = "NORMAL") {
         if(type === "NO_DATA" && !confirm("ยืนยันการล้างกระดานโดยไม่บันทึกข้อมูล?")) return;
         state = getInitialState(keepCarryoverGlobal); initial_shoe_state = JSON.parse(JSON.stringify(state)); 
-        global_history_log = []; current_shoe_genesis_dna = ""; saveToStorage(); renderUI();
+        global_history_log = []; current_shoe_genesis_dna = ""; 
+        document.getElementById('history-container').innerHTML = ''; // ล้างหน้าจอกระดาน
+        saveToStorage(); renderUI();
     }
 
     function getInitialState(keepCarryover = false) {
@@ -382,7 +388,8 @@
         if (mode === newMode) return; 
         vibrate(30); mode = newMode; 
         state = rebuildStateFromLog(mode, global_history_log); 
-        saveToStorage(); renderUI(); 
+        document.getElementById('history-container').innerHTML = ''; // บังคับวาดใหม่ตอนเปลี่ยนโหมด
+        saveToStorage(); renderUI(true); 
     }
 
     function getStreakLengths(hist) { if(hist.length === 0) return []; let streaks = [], current = 1; for(let i=1; i<hist.length; i++){ if(hist[i] === hist[i-1]) current++; else { streaks.push(current); current = 1; } } streaks.push(current); return streaks; }
@@ -510,13 +517,12 @@
         } 
     }
 
-    // 💥 OPTIMIZATION 2: ให้ประมวลผลไปข้างหน้า (Forward Compute) ห้ามล้างลูปเพื่อลดการค้าง
     function recordResult(outcome) { 
         vibrate(50); 
         global_history_log.push(outcome); 
-        processOutcomeOnState(state, outcome, mode); // เดินหน้าทันที ไม่อืด!
+        processOutcomeOnState(state, outcome, mode); 
         saveToStorage(); 
-        renderUI(); 
+        renderUI(false, outcome); // ส่งคำสั่งว่าวาดแค่ "เม็ดล่าสุด" พอ
     }
     
     function undo() { 
@@ -524,16 +530,20 @@
         if (global_history_log.length > 0) { 
             global_history_log.pop(); 
             if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } 
-            state = rebuildStateFromLog(mode, global_history_log); // ย้อนหลังถึงยอมให้ลูปทำงานหนัก
+            state = rebuildStateFromLog(mode, global_history_log); 
+            document.getElementById('history-container').innerHTML = ''; // บังคับวาดใหม่ตอนลบ
             saveToStorage(); 
-            renderUI(); 
+            renderUI(true); 
         } 
     }
 
-    function renderUI() {
+    // 💥 OPTIMIZATION 3: Smart Render (วาดแค่ลูกปัดใหม่ ไม่วาดซ้ำทั้งหมด)
+    function renderUI(forceRedrawAll = false, newOutcome = null) {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
+        
+        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🐦 Phoenix V.3";
         
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') {
@@ -580,14 +590,32 @@
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
         
-        const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
-        state.history_all.forEach((out, index) => {
+        const histContainer = document.getElementById('history-container');
+        
+        // 💥 Smart Render: ถ้าระบุว่าบังคับวาดใหม่หมด (เช่น เปลี่ยนโหมด, ย้อนกลับ, โหลดครั้งแรก)
+        if (forceRedrawAll || histContainer.children.length === 0) {
+            histContainer.innerHTML = '';
+            state.history_all.forEach((out, index) => {
+                let div = document.createElement('div'); 
+                div.className = `w-[26px] h-[26px] rounded-full flex items-center justify-center text-[12px] font-bold bead-${out.toLowerCase()}`;
+                if (index === state.history_all.length - 1) div.classList.add('latest-bead');
+                div.innerText = out; histContainer.appendChild(div);
+            });
+        } 
+        // 💥 ถ้ารับค่าใหม่มาแค่เม็ดเดียว ให้เพิ่มแค่เม็ดนั้น (ลื่นขึ้น 99%)
+        else if (newOutcome) {
+            // เอาเส้นขอบวาวๆ ออกจากเม็ดก่อนหน้า
+            if (histContainer.lastChild) {
+                histContainer.lastChild.classList.remove('latest-bead');
+            }
             let div = document.createElement('div'); 
-            div.className = `w-[26px] h-[26px] rounded-full flex items-center justify-center text-[12px] font-bold bead-${out.toLowerCase()}`;
-            if (index === state.history_all.length - 1) div.classList.add('latest-bead');
-            div.innerText = out; histContainer.appendChild(div);
-        });
-        const scrollZone = histContainer.parentElement; scrollZone.scrollLeft = scrollZone.scrollWidth;
+            div.className = `w-[26px] h-[26px] rounded-full flex items-center justify-center text-[12px] font-bold bead-${newOutcome.toLowerCase()} latest-bead`;
+            div.innerText = newOutcome;
+            histContainer.appendChild(div);
+        }
+
+        const scrollZone = histContainer.parentElement; 
+        scrollZone.scrollLeft = scrollZone.scrollWidth; // เลื่อนกระดานไปขวาสุดเสมอ
         
         let sysInfo = "✅ พร้อมรบ";
         if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
@@ -607,7 +635,7 @@
     }
     
     loadFromStorage();
-    renderUI();
+    renderUI(true); // โหลดครั้งแรกบังคับวาดลูกปัดทั้งหมด
     if(sync_queue.length > 0) triggerSync();
 </script>
 </body>
