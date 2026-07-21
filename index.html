@@ -41,7 +41,7 @@
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
             <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐉 V.2</button>
-            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🦢🔥 V.3</button>
+            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🦢 V.3</button>
         </div>
     </div>
 
@@ -399,7 +399,7 @@
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         
-        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🦢🔥 Whale V.3";
+        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🦢 Whale V.3";
         
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') goldenAlert.classList.remove('hidden'); else goldenAlert.classList.add('hidden');
