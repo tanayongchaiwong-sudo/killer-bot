@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
-    <title>Killer Baccarat OS - V.16.6.23 Custom Hotkeys</title>
+    <title>Killer Baccarat OS - Ultra Performance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -16,12 +16,13 @@
         .bead-b { background-color: #ef4444; color: white; font-weight: bold; }
         .bead-p { background-color: #3b82f6; color: white; font-weight: bold; }
         .bead-t { background-color: #22c55e; color: white; font-weight: bold; }
-        @keyframes pulse-green { 0%, 100% { box-shadow: 0 0 10px rgba(34,197,94,0.3); } 50% { box-shadow: 0 0 20px rgba(34,197,94,0.6); } }
-        .golden-glow { animation: pulse-green 2s infinite; }
-        @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 10px rgba(239,68,68,0.3); } 50% { box-shadow: 0 0 20px rgba(239,68,68,0.6); } }
-        .danger-glow { animation: pulse-red 2s infinite; }
-        @keyframes bead-pop { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0.8); } 50% { transform: scale(1.3); box-shadow: 0 0 15px 5px rgba(255,255,255,0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); } }
-        .latest-bead { animation: bead-pop 1s ease-out; border: 2px solid white; z-index: 10;}
+        
+        /* 💥 ปรับ Animation ให้เบาที่สุดเพื่อลดอาการค้าง */
+        .golden-glow { background: linear-gradient(45deg, #166534, #15803d); border: 2px solid #4ade80; }
+        .danger-glow { background: linear-gradient(45deg, #991b1b, #b91c1c); border: 2px solid #f87171; }
+        @keyframes bead-pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .latest-bead { animation: bead-pop 0.2s ease-out; border: 2px solid white; z-index: 10;}
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .bead-plate-grid { display: grid; grid-template-rows: repeat(6, 26px); grid-auto-columns: 26px; grid-auto-flow: column; gap: 4px; padding: 4px; }
@@ -33,14 +34,14 @@
 <body class="bg-slate-900 text-white">
 
 <div id="tag-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-    <div class="bg-slate-800 border border-slate-600 rounded-3xl p-6 w-full max-w-md flex flex-col gap-4 shadow-2xl scale-100 transition-transform">
+    <div class="bg-slate-800 border border-slate-600 rounded-3xl p-6 w-full max-w-md flex flex-col gap-4 shadow-2xl">
         <h3 class="text-2xl font-bold text-white text-center">🏷️ ระบุพฤติกรรมขอนไพ่</h3>
         <p class="text-sm text-gray-400 text-center mb-2">ข้อมูลนี้จะใช้สอน AI ให้แยกแยะสภาวะตลาดในอนาคต</p>
         <div class="grid grid-cols-2 gap-3">
-            <button onclick="confirmNewShoeWithTag('NORMAL')" class="bg-slate-700 hover:bg-slate-600 active:scale-95 p-4 rounded-xl text-sm font-semibold transition-all border border-slate-600">🟢 ปกติ (สลับไปมา)</button>
-            <button onclick="confirmNewShoeWithTag('DRAGON')" class="bg-slate-700 hover:bg-slate-600 active:scale-95 p-4 rounded-xl text-sm font-semibold transition-all border border-slate-600">🐉 มังกรดุ (ไพ่ยาว)</button>
-            <button onclick="confirmNewShoeWithTag('PINGPONG')" class="bg-slate-700 hover:bg-slate-600 active:scale-95 p-4 rounded-xl text-sm font-semibold transition-all border border-slate-600">🏓 ปิงปองรัว (สลับเป๊ะ)</button>
-            <button onclick="confirmNewShoeWithTag('CHOPPY')" class="bg-slate-700 hover:bg-slate-600 active:scale-95 p-4 rounded-xl text-sm font-semibold transition-all border border-slate-600">🌪️ สวิง/เหวี่ยง (จับทางยาก)</button>
+            <button onclick="confirmNewShoeWithTag('NORMAL')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl text-sm font-semibold border border-slate-600">🟢 ปกติ</button>
+            <button onclick="confirmNewShoeWithTag('DRAGON')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl text-sm font-semibold border border-slate-600">🐉 มังกรดุ</button>
+            <button onclick="confirmNewShoeWithTag('PINGPONG')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl text-sm font-semibold border border-slate-600">🏓 ปิงปองรัว</button>
+            <button onclick="confirmNewShoeWithTag('CHOPPY')" class="bg-slate-700 hover:bg-slate-600 p-4 rounded-xl text-sm font-semibold border border-slate-600">🌪️ สวิง/เหวี่ยง</button>
         </div>
         <button onclick="closeTagModal()" class="mt-4 text-gray-500 hover:text-white text-sm underline text-center w-full p-2">ยกเลิก (ยังไม่จบขอน)</button>
     </div>
@@ -50,27 +51,27 @@
     <div class="flex justify-between items-center shrink-0">
         <div class="flex flex-col">
             <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 leading-tight">KILLER OS</h1>
-            <span class="text-[10px] md:text-xs text-emerald-400 leading-none mt-1 font-mono">v16.6.23 Custom Keys</span>
+            <span class="text-[10px] md:text-xs text-emerald-400 leading-none mt-1 font-mono">v16.6.26 Ultra Speed</span>
         </div>
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
-            <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
-            <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐉 V.2</button>
-            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐦 V.3</button>
+            <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400">🐋 V.1</button>
+            <button id="btn-whale2" onclick="setMode('WHALE_V2')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400">🐉 V.2</button>
+            <button id="btn-whale3" onclick="setMode('WHALE_V3')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400">🐦 V.3</button>
         </div>
     </div>
 
-    <div id="alerts-zone" class="shrink-0 w-full empty:hidden transition-all duration-300">
-        <div id="golden-shoe-alert" class="w-full bg-green-600 border border-green-400 rounded-xl p-3 text-center hidden golden-glow">
+    <div id="alerts-zone" class="shrink-0 w-full empty:hidden">
+        <div id="golden-shoe-alert" class="w-full rounded-xl p-3 text-center hidden golden-glow shadow-md">
             <p class="text-white font-bold text-sm md:text-base">🟢 Top 10: สถิติทำกำไรสูง น่าเข้าเล่น!</p>
         </div>
-        <div id="danger-shoe-alert" class="w-full bg-red-600 border border-red-400 rounded-xl p-3 text-center hidden danger-glow mt-2">
+        <div id="danger-shoe-alert" class="w-full rounded-xl p-3 text-center hidden danger-glow mt-2 shadow-md">
             <p class="text-white font-bold text-sm md:text-base">🔴 Bottom 10: สถิติติดลบสูง (ระวังเป็นพิเศษ)</p>
         </div>
     </div>
 
     <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 flex-1">
         <div class="lg:col-span-7 flex flex-col gap-6">
-            <div id="commander-zone" class="w-full rounded-3xl p-4 md:p-6 border-2 text-center shadow-2xl shrink-0 transition-colors duration-300 bg-slate-800/80 fixed-commander-mobile">
+            <div id="commander-zone" class="w-full rounded-3xl p-4 md:p-6 border-2 text-center shadow-lg shrink-0 transition-colors duration-300 bg-slate-800/80 fixed-commander-mobile">
                 <div class="flex justify-between items-start w-full">
                     <span id="mode-badge" class="text-xs md:text-sm font-bold px-3 py-1 rounded-lg">Phoenix V.3</span>
                     <div class="flex gap-2 items-center">
@@ -93,15 +94,15 @@
                     บันทึกผลไพ่ <span id="round-text" class="text-white font-bold ml-2 bg-indigo-600/30 px-3 py-1 rounded-full border border-indigo-500/30">ตาที่ 0</span>
                 </p>
                 <div class="grid grid-cols-3 gap-3 md:gap-5">
-                    <button onclick="recordResult('P')" class="btn-press bg-blue-600 active:bg-blue-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(37,99,235,0.4)] transition-all flex flex-col items-center justify-center">
+                    <button onclick="recordResult('P')" class="btn-press bg-blue-600 active:bg-blue-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(37,99,235,0.4)] flex flex-col items-center justify-center">
                         <span class="leading-none">P</span>
                         <span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: P</span>
                     </button>
-                    <button onclick="recordResult('T')" class="btn-press bg-green-600 active:bg-green-700 text-white h-20 md:h-24 rounded-2xl text-2xl font-bold shadow-[0_5px_15px_rgba(34,197,94,0.4)] transition-all flex flex-col items-center justify-center">
+                    <button onclick="recordResult('T')" class="btn-press bg-green-600 active:bg-green-700 text-white h-20 md:h-24 rounded-2xl text-2xl font-bold shadow-[0_5px_15px_rgba(34,197,94,0.4)] flex flex-col items-center justify-center">
                         <span class="leading-none">TIE</span>
                         <span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: T</span>
                     </button>
-                    <button onclick="recordResult('B')" class="btn-press bg-red-600 active:bg-red-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(239,68,68,0.4)] transition-all flex flex-col items-center justify-center">
+                    <button onclick="recordResult('B')" class="btn-press bg-red-600 active:bg-red-700 text-white h-20 md:h-24 rounded-2xl text-4xl font-black shadow-[0_5px_15px_rgba(239,68,68,0.4)] flex flex-col items-center justify-center">
                         <span class="leading-none">B</span>
                         <span class="text-[10px] opacity-50 mt-1 hidden md:block">Key: B</span>
                     </button>
@@ -128,41 +129,19 @@
             </div>
 
             <div class="grid grid-cols-4 gap-2 shrink-0">
-                <button onclick="undo()" class="bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-xs md:text-sm font-semibold transition-colors flex items-center justify-center gap-1">
+                <button onclick="undo()" class="bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-xs md:text-sm font-semibold flex items-center justify-center gap-1">
                     ↩️ ย้อน <span class="text-[9px] text-gray-400 hidden md:inline ml-1">(Z)</span>
                 </button>
-                
-                <button onclick="executeShoeReset('NO_DATA')" class="bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-300 text-xs md:text-sm border border-gray-600 transition-colors shadow-sm">🧹 ล้าง</button>
-
-                <button onclick="newShoe()" class="bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-xs md:text-sm font-bold transition-colors">🔄 จบขอน</button>
-                
-                <button onclick="triggerSync()" id="sync-container" class="bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner hover:bg-emerald-800/60 transition-colors">
+                <button onclick="executeShoeReset('NO_DATA')" class="bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-300 text-xs md:text-sm border border-gray-600 shadow-sm">🧹 ล้าง</button>
+                <button onclick="newShoe()" class="bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-xs md:text-sm font-bold">🔄 จบขอน</button>
+                <button onclick="triggerSync()" id="sync-container" class="bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner cursor-pointer">
                     <span class="leading-none mb-0.5">☁️ Sync</span>
                     <span id="db-count" class="leading-none text-white/70">...</span>
                 </button>
             </div>
             
             <div class="flex gap-2">
-                 <button onclick="exportCSV()" class="w-full bg-slate-800 hover:bg-slate-700 py-2 rounded-xl text-gray-400 font-bold text-[11px] border border-slate-700 transition-colors shadow-sm">📥 ดาวน์โหลด Backup CSV (Offline)</button>
-            </div>
-
-            <div id="data-recorders-zone" class="w-full shrink-0 flex flex-col gap-2 empty:hidden">
-                <div id="toxic-recorder-zone" class="bg-slate-900 p-3 rounded-xl border border-red-500/50 hidden flex items-center justify-between">
-                    <p class="text-xs font-bold text-red-500 mr-2">🚨 บัญชีดำ!</p>
-                    <input type="text" id="toxic-dna-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-red-400 font-mono text-[10px] md:text-xs text-center" value="">
-                    <button onclick="copyToxicDNA()" class="ml-2 bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
-                    <button onclick="hideToxic()" class="ml-1 text-gray-500 text-xs px-2">X</button>
-                </div>
-                <div id="genesis-report-zone" class="bg-slate-900 p-3 rounded-xl border border-indigo-500/50 hidden flex flex-col gap-2">
-                    <div class="flex justify-between items-center">
-                        <p id="genesis-outcome-text" class="text-xs font-bold text-indigo-300 truncate"></p>
-                        <button onclick="hideGenesis()" class="text-gray-500 text-xs px-2">X</button>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="genesis-data-input" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-2 text-indigo-300 font-mono text-[10px] md:text-xs text-center" value="">
-                        <button onclick="copyGenesisData()" class="bg-indigo-600 text-white px-3 py-2 rounded-lg text-xs font-bold">COPY</button>
-                    </div>
-                </div>
+                 <button onclick="exportCSV()" class="w-full bg-slate-800 hover:bg-slate-700 py-2 rounded-xl text-gray-400 font-bold text-[11px] border border-slate-700 shadow-sm">📥 ดาวน์โหลด Backup CSV (Offline)</button>
             </div>
 
             <div class="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/50 shadow-inner overflow-x-auto overflow-y-hidden no-scrollbar flex-1 min-h-[200px]">
@@ -174,9 +153,6 @@
 </div>
 
 <script>
-    // ==========================================
-    // 🔑 1. ข้อมูล SUPABASE ของคุณ
-    // ==========================================
     const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
@@ -196,9 +172,9 @@
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
     let keepCarryoverGlobal = false;
     
-    // 💥 เปลี่ยนชื่อ Storage เพื่อล้าง Memory Leak อันเก่าที่ทำเครื่องค้าง
-    const STORAGE_KEY = 'killerBaccaratData_V16_SuperSmooth';
-    const DB_KEY = 'killerBaccaratDB_Offline'; // แยก Data ไปเก็บอีกก้อน ไม่ให้หนักแอป
+    // 💥 เปลี่ยนชื่อ Database เพื่อล้าง Cache เดิมที่สะสมจนค้าง
+    const STORAGE_KEY = 'killerBaccaratData_V16_Fast';
+    const DB_KEY = 'killerBaccaratDB_Offline_Fast'; 
 
     document.addEventListener('keydown', function(event) {
         if (!document.getElementById('tag-modal').classList.contains('hidden')) return;
@@ -213,10 +189,14 @@
     function saveToStorage() { 
         clearTimeout(saveTimeout);
         saveTimeout = setTimeout(() => {
-            // เก็บสถานะที่จำเป้นต้องใช้โชว์เท่านั้น
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, sync_queue })); 
-            localStorage.setItem(DB_KEY, JSON.stringify(round_database));
-        }, 100); 
+            // เซฟเฉพาะ State เล็กๆ ไม่เซฟก้อน Data ใหญ่ตอนกดไพ่ เพื่อแก้บั๊กค้าง
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, sync_queue })); 
+        }, 50); 
+    }
+    
+    function saveDatabase() {
+        // จะเซฟก้อนข้อมูลใหญ่ ก็ต่อเมื่อกดจบขอนเท่านั้น (ไม่รบกวนการเล่น)
+        localStorage.setItem(DB_KEY, JSON.stringify(round_database));
     }
     
     function loadFromStorage() {
@@ -227,7 +207,7 @@
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
                 current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
                 sync_queue = parsed.sync_queue || [];
-                state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; 
+                state = parsed.state; 
                 if (dbData) round_database = JSON.parse(dbData) || [];
                 return true;
             } catch(e) { return false; }
@@ -240,7 +220,7 @@
         
         if (sync_queue.length === 0) {
             countEl.innerText = "OK";
-            syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner hover:bg-emerald-800/60 transition-colors cursor-pointer";
+            syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner cursor-pointer";
             return;
         }
 
@@ -262,14 +242,13 @@
             
             if (!response.ok) throw new Error(await response.text());
             else {
-                console.log(`☁️ Synced ${sync_queue.length} rounds!`);
                 sync_queue = []; saveToStorage(); countEl.innerText = "OK";
-                syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner hover:bg-emerald-800/60 transition-colors cursor-pointer";
+                syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner cursor-pointer";
             }
         } catch (error) {
             console.error("Sync Error:", error);
             countEl.innerText = `ค้าง ${sync_queue.length}`;
-            syncContainer.className = "bg-red-900/40 py-3 rounded-xl text-red-400 font-bold text-[10px] md:text-xs border border-red-800 flex flex-col items-center justify-center shadow-inner hover:bg-red-800/60 transition-colors cursor-pointer";
+            syncContainer.className = "bg-red-900/40 py-3 rounded-xl text-red-400 font-bold text-[10px] md:text-xs border border-red-800 flex flex-col items-center justify-center shadow-inner cursor-pointer";
         }
     }
 
@@ -279,15 +258,19 @@
         let timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
 
         for (let i = 0; i < global_history_log.length; i++) {
-            let outcome = global_history_log[i]; let pre_state = JSON.parse(JSON.stringify(temp_state)); 
+            let outcome = global_history_log[i]; 
             
-            let signal = pre_state.current_signal || 'WAIT';
-            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) signal = 'WAIT';
-            if (pre_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
+            // 💥 OPTIMIZATION: ดึงค่าก่อนประมวลผล โดยไม่ต้อง Deep Clone (ลดภาระ CPU 99%)
+            let signal = temp_state.current_signal || 'WAIT';
+            if (temp_state.toxic_wait || temp_state.dragon_wait || temp_state.symmetry_wait || !temp_state.active_shoe) signal = 'WAIT';
+            if (temp_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
             
-            let bet = pre_state.bet_amount || 0;
+            let bet = temp_state.bet_amount || 0;
+            let prev_pnl = temp_state.global_pnl;
+
             processOutcomeOnState(temp_state, outcome, mode); 
-            let pnl_diff = temp_state.global_pnl - pre_state.global_pnl;
+            
+            let pnl_diff = temp_state.global_pnl - prev_pnl;
             
             logs.push({
                 shoe_id: shoe_id, round_no: i + 1, actual: outcome, signal: signal, bet_amount: bet, pnl: pnl_diff,
@@ -345,6 +328,7 @@
         round_database = round_database.concat(logsArray);
         sync_queue = sync_queue.concat(logsArray); 
         
+        saveDatabase(); // เซฟก้อนใหญ่แค่ตอนจบขอนเท่านั้น
         triggerSync(); 
         executeShoeReset();
     }
@@ -353,8 +337,8 @@
         if(type === "NO_DATA" && !confirm("ยืนยันการล้างกระดานโดยไม่บันทึกข้อมูล?")) return;
         state = getInitialState(keepCarryoverGlobal); initial_shoe_state = JSON.parse(JSON.stringify(state)); 
         global_history_log = []; current_shoe_genesis_dna = ""; 
-        document.getElementById('history-container').innerHTML = ''; // ล้างหน้าจอกระดาน
-        saveToStorage(); renderUI();
+        document.getElementById('history-container').innerHTML = ''; 
+        saveToStorage(); renderUI(true);
     }
 
     function getInitialState(keepCarryover = false) {
@@ -388,7 +372,7 @@
         if (mode === newMode) return; 
         vibrate(30); mode = newMode; 
         state = rebuildStateFromLog(mode, global_history_log); 
-        document.getElementById('history-container').innerHTML = ''; // บังคับวาดใหม่ตอนเปลี่ยนโหมด
+        document.getElementById('history-container').innerHTML = ''; 
         saveToStorage(); renderUI(true); 
     }
 
@@ -522,7 +506,7 @@
         global_history_log.push(outcome); 
         processOutcomeOnState(state, outcome, mode); 
         saveToStorage(); 
-        renderUI(false, outcome); // ส่งคำสั่งว่าวาดแค่ "เม็ดล่าสุด" พอ
+        renderUI(false, outcome); 
     }
     
     function undo() { 
@@ -531,13 +515,12 @@
             global_history_log.pop(); 
             if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } 
             state = rebuildStateFromLog(mode, global_history_log); 
-            document.getElementById('history-container').innerHTML = ''; // บังคับวาดใหม่ตอนลบ
+            document.getElementById('history-container').innerHTML = ''; 
             saveToStorage(); 
             renderUI(true); 
         } 
     }
 
-    // 💥 OPTIMIZATION 3: Smart Render (วาดแค่ลูกปัดใหม่ ไม่วาดซ้ำทั้งหมด)
     function renderUI(forceRedrawAll = false, newOutcome = null) {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
@@ -592,7 +575,6 @@
         
         const histContainer = document.getElementById('history-container');
         
-        // 💥 Smart Render: ถ้าระบุว่าบังคับวาดใหม่หมด (เช่น เปลี่ยนโหมด, ย้อนกลับ, โหลดครั้งแรก)
         if (forceRedrawAll || histContainer.children.length === 0) {
             histContainer.innerHTML = '';
             state.history_all.forEach((out, index) => {
@@ -602,9 +584,7 @@
                 div.innerText = out; histContainer.appendChild(div);
             });
         } 
-        // 💥 ถ้ารับค่าใหม่มาแค่เม็ดเดียว ให้เพิ่มแค่เม็ดนั้น (ลื่นขึ้น 99%)
         else if (newOutcome) {
-            // เอาเส้นขอบวาวๆ ออกจากเม็ดก่อนหน้า
             if (histContainer.lastChild) {
                 histContainer.lastChild.classList.remove('latest-bead');
             }
@@ -615,28 +595,24 @@
         }
 
         const scrollZone = histContainer.parentElement; 
-        scrollZone.scrollLeft = scrollZone.scrollWidth; // เลื่อนกระดานไปขวาสุดเสมอ
+        scrollZone.scrollLeft = scrollZone.scrollWidth; 
         
         let sysInfo = "✅ พร้อมรบ";
         if(state.genesis_status === 'BOTTOM') sysInfo = "⚠️ แจ้งเตือนสถิติติดลบ"; else if(state.is_blowout) sysInfo = "💥 พอร์ตแตก!"; else if(state.current_signal && state.status_msg.includes("มังกรลวง")) sysInfo = "🔥 เกราะ V.3"; else if(state.is_virtual_mode) sysInfo = "👻 แทงลม"; else if(state.is_trailing) sysInfo = "🚀 ปล่อยไหล"; else if(state.is_riding_dragon) sysInfo = "🔥 ขี่มังกร"; else if(state.symmetry_wait) sysInfo = "🟣 ป้องกันไพ่คู่"; else if(state.dragon_wait) sysInfo = "🐉 รอมังกรขาด";
         if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
         document.getElementById('system-status').innerText = sysInfo;
         
-        // อัปเดตสถานะปุ่ม Sync
         let syncContainer = document.getElementById('sync-container');
         let countEl = document.getElementById('db-count');
         if(sync_queue.length > 0) {
             countEl.innerText = `ค้าง ${sync_queue.length}`;
-            syncContainer.className = "bg-red-900/40 py-3 rounded-xl text-red-400 font-bold text-[10px] md:text-xs border border-red-800 flex flex-col items-center justify-center shadow-inner hover:bg-red-800/60 transition-colors cursor-pointer";
+            syncContainer.className = "bg-red-900/40 py-3 rounded-xl text-red-400 font-bold text-[10px] md:text-xs border border-red-800 flex flex-col items-center justify-center shadow-inner cursor-pointer";
         } else {
             countEl.innerText = `OK`;
-            syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner hover:bg-emerald-800/60 transition-colors cursor-pointer";
+            syncContainer.className = "bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[10px] md:text-xs border border-emerald-800 flex flex-col items-center justify-center shadow-inner cursor-pointer";
         }
     }
     
     loadFromStorage();
-    renderUI(true); // โหลดครั้งแรกบังคับวาดลูกปัดทั้งหมด
-    if(sync_queue.length > 0) triggerSync();
+    renderUI(true);
 </script>
-</body>
-</html>
