@@ -174,6 +174,9 @@
 </div>
 
 <script>
+    // ==========================================
+    // 🔑 1. ข้อมูล SUPABASE ของคุณ
+    // ==========================================
     const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
@@ -192,33 +195,26 @@
     let sync_queue = []; 
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
     let keepCarryoverGlobal = false;
+    
+    // ใช้ชื่อเดิมข้อมูลจะได้ไม่หาย
     const STORAGE_KEY = 'killerBaccaratData_V16_Keys';
 
-    // 💥 อัปเดตลอจิกคีย์ลัดให้ตรงกับคำขอ: P=P, B=B, T=TIE, Z=Undo
     document.addEventListener('keydown', function(event) {
-        // ถือกล่องตอบคำถาม (Modal) หรือพิมพ์ช่องอื่นอยู่ ห้ามทำงาน
         if (!document.getElementById('tag-modal').classList.contains('hidden')) return;
-        
-        // รับค่าปุ่มที่กด (แปลงเป็นตัวพิมพ์เล็กหมดเพื่อความชัวร์)
         const key = event.key.toLowerCase();
-        
-        if (key === 'p') { 
-            vibrate(50); 
-            recordResult('P'); 
-        } else if (key === 'b') { 
-            vibrate(50); 
-            recordResult('B'); 
-        } else if (key === 't') { 
-            vibrate(50); 
-            recordResult('T'); 
-        } else if (key === 'z') { 
-            vibrate(50);
-            undo(); 
-        }
+        if (key === 'p') { vibrate(50); recordResult('P'); }
+        else if (key === 'b') { vibrate(50); recordResult('B'); }
+        else if (key === 't') { vibrate(50); recordResult('T'); }
+        else if (key === 'z') { vibrate(50); undo(); }
     });
 
+    // 💥 OPTIMIZATION 1: แยกเทรดการบันทึกข้อมูลเพื่อลดอาการจอกระตุก (Debounce Storage)
+    let saveTimeout;
     function saveToStorage() { 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, round_database, sync_queue })); 
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, round_database, sync_queue })); 
+        }, 50); // ดีเลย์ 50ms ให้ภาพหน้าจออัปเดตให้เสร็จก่อนค่อยเซฟ
     }
     
     function loadFromStorage() {
@@ -376,9 +372,18 @@
 
     if (!loadFromStorage()) { state = getInitialState(false); initial_shoe_state = JSON.parse(JSON.stringify(state)); }
 
-    function rebuildStateFromLog(mode_to_run, log_array) { let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); for (let out of log_array) { processOutcomeOnState(temp_state, out, mode_to_run); } return temp_state; }
+    function rebuildStateFromLog(mode_to_run, log_array) { 
+        let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
+        for (let out of log_array) { processOutcomeOnState(temp_state, out, mode_to_run); } 
+        return temp_state; 
+    }
 
-    function setMode(newMode) { if (mode === newMode) return; vibrate(30); mode = newMode; state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
+    function setMode(newMode) { 
+        if (mode === newMode) return; 
+        vibrate(30); mode = newMode; 
+        state = rebuildStateFromLog(mode, global_history_log); 
+        saveToStorage(); renderUI(); 
+    }
 
     function getStreakLengths(hist) { if(hist.length === 0) return []; let streaks = [], current = 1; for(let i=1; i<hist.length; i++){ if(hist[i] === hist[i-1]) current++; else { streaks.push(current); current = 1; } } streaks.push(current); return streaks; }
     function buildBigRoad(actual_list) { let br = []; for (let out of actual_list) { if (out !== 'B' && out !== 'P') continue; if (br.length === 0) br.push([out]); else if (out === br[br.length - 1][0]) br[br.length - 1].push(out); else br.push([out]); } return br; }
@@ -505,15 +510,30 @@
         } 
     }
 
-    function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
-    function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
+    // 💥 OPTIMIZATION 2: ให้ประมวลผลไปข้างหน้า (Forward Compute) ห้ามล้างลูปเพื่อลดการค้าง
+    function recordResult(outcome) { 
+        vibrate(50); 
+        global_history_log.push(outcome); 
+        processOutcomeOnState(state, outcome, mode); // เดินหน้าทันที ไม่อืด!
+        saveToStorage(); 
+        renderUI(); 
+    }
+    
+    function undo() { 
+        vibrate(50); 
+        if (global_history_log.length > 0) { 
+            global_history_log.pop(); 
+            if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } 
+            state = rebuildStateFromLog(mode, global_history_log); // ย้อนหลังถึงยอมให้ลูปทำงานหนัก
+            saveToStorage(); 
+            renderUI(); 
+        } 
+    }
 
     function renderUI() {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale2').className = mode === 'WHALE_V2' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-fuchsia-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
         document.getElementById('btn-whale3').className = mode === 'WHALE_V3' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-red-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
-        
-        document.getElementById('mode-badge').innerText = mode === 'WHALE_V1' ? "🐋 Whale V.1" : mode === 'WHALE_V2' ? "🐉 Whale V.2" : "🐦‍🔥 Phoenix V.3";
         
         const goldenAlert = document.getElementById('golden-shoe-alert'), dangerAlert = document.getElementById('danger-shoe-alert');
         if (state.genesis_status === 'TOP') {
