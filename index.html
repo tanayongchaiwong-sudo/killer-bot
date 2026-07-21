@@ -148,7 +148,7 @@
 
 <script>
     // ==========================================
-    // 🔑 ข้อมูล SUPABASE ของคุณ
+    // 🔑 1. ข้อมูล SUPABASE ของคุณ
     // ==========================================
     const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
@@ -163,17 +163,16 @@
 
     const GENESIS_TOP_10 = ['PBBPBP', 'PBPBPP', 'BPPBPB', 'PPPPBB', 'PPPBBP', 'PPPBPB', 'PPPBBB', 'BPBBBP', 'BPBBBB', 'BBPBBB'];
     const GENESIS_BOTTOM_10 = ['PPBBPP', 'BPPBBB', 'BBBBPB', 'PBPPBB', 'PPBPPP', 'PBBPPB', 'PBBPPP', 'PBBBBB', 'BBBBBB', 'PBPBBP'];
-    const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
-    const TOXIC_4 = "BBBBBPPBBBBB"; const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
-    // เพิ่มตัวแปร sync_queue และยึดการทำงานแบบ V.20
     let shoe_database = []; 
     let sync_queue = []; 
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let last_genesis_report = null; let state, initial_shoe_state;
-    const STORAGE_KEY = 'killerBaccaratData_V16_PhoenixStable';
+    
+    // เปลี่ยน Storage Key เพื่อล้างคิวเก่าที่พังติด Error ออกไป
+    const STORAGE_KEY = 'killerBaccaratData_V16_SyncFix';
 
-    // 💥 ระบบคีย์บอร์ดลัด (P, B, T, Z)
     document.addEventListener('keydown', function(event) {
+        if (!document.getElementById('tag-modal').classList.contains('hidden')) return;
         const key = event.key.toLowerCase();
         if (key === 'p') { vibrate(50); recordResult('P'); }
         else if (key === 'b') { vibrate(50); recordResult('B'); }
@@ -205,7 +204,45 @@
         } 
     }
 
-    // 💥 ฟังก์ชันส่งข้อมูลขึ้น Supabase (รองรับ Offline)
+    // 💥 แก้ไขฟังก์ชันการจำลองตา (แยกพารามิเตอร์ให้ชัดเจน ป้องกัน undefined)
+    function generateRoundLogs(shoe_id, outcome_cat) {
+        let logs = []; 
+        let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
+        
+        let now = new Date(); 
+        let pad = (n) => n.toString().padStart(2, '0');
+        let timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+        for (let i = 0; i < global_history_log.length; i++) {
+            let outcome = global_history_log[i]; 
+            let pre_state = JSON.parse(JSON.stringify(temp_state)); 
+            
+            let signal = pre_state.current_signal || 'WAIT';
+            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) signal = 'WAIT';
+            if (pre_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
+            
+            let bet = pre_state.bet_amount || 0;
+            processOutcomeOnState(temp_state, outcome, mode); 
+            let pnl_diff = temp_state.global_pnl - pre_state.global_pnl;
+            
+            // สร้างก้อนข้อมูลที่ตรงกับ Supabase 100%
+            logs.push({
+                shoe_id: shoe_id, 
+                round_no: i + 1, 
+                actual: outcome, 
+                signal: signal, 
+                bet_amount: bet, 
+                pnl: pnl_diff,
+                net_profit: temp_state.global_pnl, 
+                recorded_time: timeStr, 
+                shoe_tag: "NO_TAG", // ถอด Tag ออกชั่วคราวเพื่อความชัวร์ในการ Sync
+                outcome: outcome_cat // ใช้ชื่อฟิลด์ 'outcome' ตรงๆ
+            });
+        }
+        return logs;
+    }
+
+    // 💥 ฟังก์ชันส่งขึ้น Supabase ที่ตรงไปตรงมาที่สุด
     async function triggerSync() {
         let countEl = document.getElementById('db-count');
         let btnEl = document.getElementById('sync-btn');
@@ -217,58 +254,37 @@
         }
 
         countEl.innerText = "Syncing...";
-        if (!SUPABASE_URL.includes("supabase.co")) return;
 
         try {
-            // ส่งข้อมูลจาก sync_queue
             const response = await fetch(`${SUPABASE_URL}/rest/v1/baccarat_round_logs`, {
                 method: 'POST',
-                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-                body: JSON.stringify(sync_queue) 
+                headers: { 
+                    'apikey': SUPABASE_ANON_KEY, 
+                    'Authorization': `Bearer ${SUPABASE_ANON_KEY}`, 
+                    'Content-Type': 'application/json', 
+                    'Prefer': 'return=minimal' 
+                },
+                body: JSON.stringify(sync_queue) // ยัดส่งตรงๆ ไม่ต้องแปลงค่าอีก
             });
             
-            if (!response.ok) throw new Error(await response.text());
-            else {
-                console.log(`☁️ Synced ${sync_queue.length} rounds successfully!`);
-                sync_queue = []; // ส่งผ่านแล้ว เคลียร์คิวทิ้ง
+            if (!response.ok) {
+                let errorText = await response.text();
+                throw new Error(errorText);
+            } else {
+                console.log(`☁️ ยิงข้อมูลสำเร็จ ${sync_queue.length} รายการ!`);
+                sync_queue = []; 
                 saveToStorage(); 
                 countEl.innerText = "OK";
                 btnEl.className = "px-4 bg-emerald-600 hover:bg-emerald-500 py-3 rounded-xl text-white font-bold text-xs border border-emerald-500 transition-colors shadow-md";
             }
         } catch (error) {
-            console.error("Sync Error:", error);
+            console.error("Supabase Error ->", error);
             countEl.innerText = `ค้าง ${sync_queue.length}`;
             btnEl.className = "px-4 bg-red-600 hover:bg-red-500 py-3 rounded-xl text-white font-bold text-xs border border-red-500 transition-colors shadow-md";
         }
     }
 
-    // 💥 ฟังก์ชันสร้างข้อมูลแบบรายตา
-    function generateRoundLogs(shoe_id, outcome_category) {
-        let logs = []; let temp_state = JSON.parse(JSON.stringify(initial_shoe_state)); 
-        let now = new Date(); let pad = (n) => n.toString().padStart(2, '0');
-        let timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-        for (let i = 0; i < global_history_log.length; i++) {
-            let outcome = global_history_log[i]; let pre_state = JSON.parse(JSON.stringify(temp_state)); 
-            
-            let signal = pre_state.current_signal || 'WAIT';
-            if (pre_state.toxic_wait || pre_state.dragon_wait || pre_state.symmetry_wait || !pre_state.active_shoe) signal = 'WAIT';
-            if (pre_state.is_virtual_mode && signal !== 'WAIT') signal = 'VIRTUAL ' + signal;
-            
-            let bet = pre_state.bet_amount || 0;
-            processOutcomeOnState(temp_state, outcome, mode); 
-            let pnl_diff = temp_state.global_pnl - pre_state.global_pnl;
-            
-            logs.push({
-                shoe_id: shoe_id, round_no: i + 1, actual: outcome, signal: signal, bet_amount: bet, pnl: pnl_diff,
-                net_profit: temp_state.global_pnl, recorded_time: timeStr, outcome_category: outcome_category
-            });
-        }
-        return logs;
-    }
-
     function exportCSV() {
-        // ใช้ฟังก์ชัน exportCSV แบบเดิมของ V.20 
         vibrate(30);
         if (shoe_database.length === 0 && sync_queue.length === 0) {
             alert("ยังไม่มีข้อมูลขอนไพ่ให้ดาวน์โหลดครับ"); return;
@@ -277,10 +293,9 @@
         let csvContent = "\uFEFF"; 
         let rows = [["Shoe_ID", "Round_No", "Actual", "Signal", "Bet_Amount", "PnL", "Net_Profit", "Recorded_Time", "Outcome"]];
         
-        // ส่งออกข้อมูลรายตาที่สะสมไว้ (เอาจากคิวก็ได้)
         let dataToExport = sync_queue.length > 0 ? sync_queue : [];
         dataToExport.forEach(item => {
-            rows.push([item.shoe_id, item.round_no, item.actual, item.signal, item.bet_amount, item.pnl, item.net_profit, item.recorded_time, item.outcome_category]);
+            rows.push([item.shoe_id, item.round_no, item.actual, item.signal, item.bet_amount, item.pnl, item.net_profit, item.recorded_time, item.outcome]);
         });
 
         csvContent += rows.map(e => e.join(",")).join("\n");
@@ -399,7 +414,6 @@
                 if (hist_str.length >= 8 && TOXIC_4.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 8 && TOXIC_5.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 12 && TOXIC_6.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
-                if (hist_str.length >= 12 && TOXIC_7.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             }
             if (strks.length >= 3) { let last3 = strks.slice(-3); if (last3.every(st => st === 2 || st === 3)) s.symmetry_wait = true; if (strks[strks.length - 1] >= 4 || last3.every(st => st === 1)) s.symmetry_wait = false; }
             if (s.toxic_wait || s.symmetry_wait || s.dragon_wait) { s.is_virtual_mode = true; }
@@ -448,8 +462,7 @@
 
     function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
     function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
-    
-    // 💥 V.27: สร้างข้อมูลแบบรายตา แล้วยิงขึ้นคลาวด์
+
     function newShoe() {
         vibrate(50); let keepCarryover = false;
         
@@ -460,8 +473,6 @@
             else if (state.pnl >= tp_limit) outcome_category = "1_TP_ACHIEVED"; 
             else if (state.pnl > 0) outcome_category = "2_PROFIT"; 
             else if (state.genesis_status === 'BOTTOM' && state.pnl === 0) outcome_category = "0_NO_TRADE";
-            
-            last_genesis_report = { dna: current_shoe_genesis_dna, outcome: outcome_category, pnl: state.pnl };
         }
 
         if (state.loss_streak > 0 || state.current_tier > 0) {
@@ -475,18 +486,14 @@
             let timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             let shoe_id = `SHOE_${dateStr}_${timeStr}`;
             
-            let logsArray = generateRoundLogs(shoe_id, "NONE", outcome_category); // ใช้ระบบจำลองอดีตแบบ V.20 
-            sync_queue = sync_queue.concat(logsArray);
-            triggerSync(); 
+            // เรียกฟังก์ชันแบบเจาะจง 2 พารามิเตอร์เป๊ะๆ
+            let logsArray = generateRoundLogs(shoe_id, outcome_category); 
+            sync_queue = sync_queue.concat(logsArray); 
+            triggerSync(); // ยิงขึ้น Cloud
         }
 
         state = getInitialState(keepCarryover); initial_shoe_state = JSON.parse(JSON.stringify(state)); global_history_log = []; current_shoe_genesis_dna = ""; saveToStorage(); renderUI();
     }
-
-    function hideToxic() { state.show_toxic_recorder = false; renderUI(); }
-    function hideGenesis() { last_genesis_report = null; renderUI(); }
-    function copyToxicDNA() { let input = document.getElementById('toxic-dna-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
-    function copyGenesisData() { let input = document.getElementById('genesis-data-input'); input.select(); input.setSelectionRange(0, 99999); navigator.clipboard.writeText(input.value); }
 
     function renderUI() {
         document.getElementById('btn-whale1').className = mode === 'WHALE_V1' ? "px-4 py-2 rounded-full text-[11px] md:text-sm font-bold bg-yellow-600 text-white shadow-md transition-all" : "px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 hover:text-white transition-all";
@@ -535,15 +542,6 @@
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
         
-        const toxicZone = document.getElementById('toxic-recorder-zone');
-        if (state.show_toxic_recorder) { toxicZone.classList.remove('hidden'); document.getElementById('toxic-dna-input').value = state.toxic_dna_captured; } else { toxicZone.classList.add('hidden'); }
-        const genesisZone = document.getElementById('genesis-report-zone');
-        if (last_genesis_report) {
-            genesisZone.classList.remove('hidden');
-            let catText = last_genesis_report.outcome === "1_TP_ACHIEVED" ? `🏆 TP (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "2_PROFIT" ? `🟢 กำไร (+${last_genesis_report.pnl})` : last_genesis_report.outcome === "3_LOSS_OR_STUCK" ? `🔴 ติดลบ (${last_genesis_report.pnl})` : last_genesis_report.outcome === "4_BLOWOUT" ? `💥 แตก (${last_genesis_report.pnl})` : `🛡️ ไม่เล่น (${last_genesis_report.pnl})`;
-            document.getElementById('genesis-outcome-text').innerText = catText; document.getElementById('genesis-data-input').value = `[${last_genesis_report.dna}] = ${last_genesis_report.outcome}`;
-        } else { genesisZone.classList.add('hidden'); }
-
         const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
         state.history_all.forEach((out, index) => {
             let div = document.createElement('div'); 
@@ -558,7 +556,6 @@
         if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
         document.getElementById('system-status').innerText = sysInfo;
         
-        // 💥 สถานะปุ่ม Sync V.20 แบบเสถียร
         let syncBtn = document.getElementById('sync-btn');
         let countEl = document.getElementById('db-count');
         if(sync_queue.length > 0) {
@@ -572,5 +569,5 @@
     
     loadFromStorage();
     renderUI();
-    if(sync_queue.length > 0) triggerSync(); // ลองยิงถ้ามีของค้าง
+    if(sync_queue.length > 0) triggerSync();
 </script>
