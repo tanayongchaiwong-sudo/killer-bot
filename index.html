@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Killer Baccarat OS - Cloud Sync</title>
+    <meta name="theme-color" content="#0f172a">
+    <title>Killer Baccarat OS - V.16.6.18 Cloud Active</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -29,13 +30,13 @@
         @media (min-width: 1024px) { .fixed-commander-mobile { height: 160px; } }
     </style>
 </head>
-<body>
+<body class="bg-slate-900 text-white">
 
 <div class="app-wrapper">
     <div class="flex justify-between items-center shrink-0">
         <div class="flex flex-col">
             <h1 class="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 leading-tight">KILLER OS</h1>
-            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.16 Cloud Data</span>
+            <span class="text-[10px] md:text-xs text-gray-500 leading-none mt-1">v16.6.18 Auto-Connect</span>
         </div>
         <div class="flex gap-2 bg-slate-800/50 p-1.5 rounded-full shadow-inner border border-slate-700/50">
             <button id="btn-whale1" onclick="setMode('WHALE_V1')" class="px-4 py-2 rounded-full text-[11px] md:text-sm font-semibold text-gray-400 transition-all">🐋 V.1</button>
@@ -106,7 +107,7 @@
                 <button onclick="undo()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl text-white shadow-sm border border-slate-600 text-sm font-semibold transition-colors">↩️ เลิกทำ</button>
                 <button onclick="newShoe()" class="flex-[1.5] bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-white shadow-md text-sm font-bold transition-colors">🔄 เริ่มขอนใหม่</button>
                 <div class="px-3 bg-emerald-900/40 py-3 rounded-xl text-emerald-400 font-bold text-[11px] border border-emerald-800 flex items-center justify-center shadow-inner">
-                    ☁️ Cloud Sync <span id="db-count" class="text-[10px] bg-emerald-700/50 text-white px-1.5 py-0.5 rounded ml-1">...</span>
+                    ☁️ Cloud <span id="db-count" class="text-[10px] bg-emerald-700/50 text-white px-1.5 py-0.5 rounded ml-1">...</span>
                 </div>
                 <button onclick="hardResetData()" class="px-3 bg-gray-800 hover:bg-gray-700 py-3 rounded-xl text-gray-400 text-xs border border-gray-600 transition-colors">🧹 ล้าง</button>
             </div>
@@ -121,9 +122,9 @@
 
 <script>
     // ==========================================
-    // 🔑 1. ใส่ข้อมูล SUPABASE ของคุณที่นี่
+    // 🔑 URL และ KEY ของคุณ (แก้ไขตัด /rest/v1/ ออกให้แล้ว)
     // ==========================================
-    const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co/rest/v1/"; 
+    const SUPABASE_URL = "https://agikitrsnjlzjrjpgedi.supabase.co"; 
     const SUPABASE_ANON_KEY = "sb_publishable_iawwyr1Ncgrx_5y6BfZ2ng_4GCmnNI7"; 
 
     function vibrate(duration) { if (navigator.vibrate) navigator.vibrate(duration); }
@@ -139,16 +140,18 @@
     const TOXIC_1 = "BPBBPBBPBBPPPBPPTBTBPBBBBP".replace(/T/g, ''); const TOXIC_2 = "PPBBBPBBPPBPPBPPPPPPBBPPPPPB".replace(/T/g, ''); const TOXIC_3 = "BPBPBPPPBBBBPPBBTBBBBPBBPPPPB".replace(/T/g, ''); 
     const TOXIC_4 = "BBBBBPPBBBBB"; const TOXIC_5 = "PPTPPTBPPBPBBBBB".replace(/T/g, ''); const TOXIC_6 = "BBBBPBBBPBPBBPBBBB"; const TOXIC_7 = "PBPBBPBPPBPPBBPPPB"; 
 
+    let shoe_database = []; 
     let mode = 'WHALE_V3'; let global_history_log = []; let current_shoe_genesis_dna = ""; let state, initial_shoe_state;
-    const STORAGE_KEY = 'killerBaccaratData_V16_Cloud';
+    const STORAGE_KEY = 'killerBaccaratData_V16_CloudSync';
 
-    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state })); }
+    function saveToStorage() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, global_history_log, current_shoe_genesis_dna, state, initial_shoe_state, shoe_database })); }
     function loadFromStorage() {
         const data = localStorage.getItem(STORAGE_KEY);
         if (data) {
             try {
                 const parsed = JSON.parse(data); mode = parsed.mode; global_history_log = parsed.global_history_log || [];
                 current_shoe_genesis_dna = parsed.current_shoe_genesis_dna || ""; 
+                shoe_database = parsed.shoe_database || [];
                 state = parsed.state; initial_shoe_state = parsed.initial_shoe_state; return true;
             } catch(e) { return false; }
         } return false;
@@ -159,16 +162,10 @@
         if(confirm("⚠️ ล้างความจำกระดานทั้งหมดใช่ไหม?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload(); } 
     }
 
-    // ☁️ 2. ระบบส่งข้อมูลขึ้น Supabase
+    // ☁️ ยิงข้อมูลขึ้น Supabase
     async function pushToSupabase(record) {
         let countEl = document.getElementById('db-count');
-        countEl.innerText = "⏳";
-        
-        if (SUPABASE_URL.includes("xxxxxx")) {
-            alert("กรุณาใส่ URL และ API Key ของ Supabase ในโค้ดก่อนครับ!");
-            countEl.innerText = "❌";
-            return;
-        }
+        countEl.innerText = "⏳ Sync";
 
         try {
             const response = await fetch(`${SUPABASE_URL}/rest/v1/killer_baccarat_logs`, {
@@ -179,19 +176,28 @@
                     'Content-Type': 'application/json',
                     'Prefer': 'return=minimal'
                 },
-                body: JSON.stringify(record)
+                body: JSON.stringify({
+                    shoe_no: record.shoe_no,
+                    shoe_id: record.shoe_id,
+                    total_rounds: record.rounds,
+                    pattern_pbt: record.pattern,
+                    pnl: record.pnl,
+                    outcome: record.outcome
+                })
             });
             
             if (!response.ok) {
-                console.error("Supabase Error:", await response.text());
-                countEl.innerText = "❌ Error";
+                let errText = await response.text();
+                console.error("Supabase Error:", errText);
+                alert("เกิดข้อผิดพลาดในการส่งข้อมูล: " + errText);
+                countEl.innerText = "❌";
             } else {
-                console.log("☁️ Data Synced to Supabase!");
+                console.log("☁️ Data Synced to Supabase Successfully!");
                 countEl.innerText = "✅ OK";
             }
         } catch (error) {
             console.error("Network Error Syncing to Supabase:", error);
-            countEl.innerText = "📡 Error";
+            countEl.innerText = "📡 Err";
         }
     }
 
@@ -296,7 +302,9 @@
             if (hist_str.length >= 10 && TOXIC_1.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             if (cfg.use_toxic_v2) {
                 if (hist_str.length >= 10 && TOXIC_2.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
+                if (hist_str.length >= 10 && TOXIC_3.includes(hist_str.slice(-10))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 8 && TOXIC_4.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
+                if (hist_str.length >= 8 && TOXIC_5.includes(hist_str.slice(-8))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
                 if (hist_str.length >= 12 && TOXIC_6.includes(hist_str.slice(-12))) { s.toxic_wait = true; s.toxic_msg = "🛑 บัญชีดำ"; }
             }
             if (strks.length >= 3) { let last3 = strks.slice(-3); if (last3.every(st => st === 2 || st === 3)) s.symmetry_wait = true; if (strks[strks.length - 1] >= 4 || last3.every(st => st === 1)) s.symmetry_wait = false; }
@@ -347,7 +355,7 @@
     function recordResult(outcome) { vibrate(50); global_history_log.push(outcome); state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); }
     function undo() { vibrate(50); if (global_history_log.length > 0) { global_history_log.pop(); if (global_history_log.length < 6) { current_shoe_genesis_dna = ""; state.genesis_status = null; } state = rebuildStateFromLog(mode, global_history_log); saveToStorage(); renderUI(); } }
     
-    // 💥 3. ส่งข้อมูลขอนขึ้น Supabase เมื่อเริ่มขอนใหม่
+    // 💥 เมื่อกดจบขอน -> ส่งเข้า Supabase
     function newShoe() {
         vibrate(50); let keepCarryover = false;
         
@@ -372,13 +380,14 @@
             let timeStr = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
             
             let record = {
-                shoe_no: Math.floor(Math.random() * 10000), // สุ่มเลขขอนชั่วคราว
+                shoe_no: shoe_database.length + 1,
                 shoe_id: `SHOE_${dateStr}_${timeStr}`,
                 rounds: global_history_log.length,
                 pattern: global_history_log.join(""),
                 pnl: state.pnl,
                 outcome: outcome_category
             };
+            shoe_database.push(record);
             pushToSupabase(record); 
         }
 
@@ -431,6 +440,8 @@
         document.getElementById('step-text').innerText = state.current_tier + 1;
         document.getElementById('loss-streak-text').innerText = state.loss_streak + 1;
         document.getElementById('round-text').innerText = state.history_all.length;
+        
+        document.getElementById('db-count').innerText = shoe_database.length;
 
         const histContainer = document.getElementById('history-container'); histContainer.innerHTML = '';
         state.history_all.forEach((out, index) => {
@@ -446,5 +457,7 @@
         if(!state.active_shoe) sysInfo = "🛑 จบขอนแล้ว";
         document.getElementById('system-status').innerText = sysInfo;
     }
+    
+    loadFromStorage();
     renderUI();
 </script>
